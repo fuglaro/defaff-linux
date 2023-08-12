@@ -1,0 +1,8 @@
+[packages]
+  [packages.cli]
+  command_line_shell = "bash"
+  text_editor = "helix"
+
+  [packages.gui]
+  terminal = "alacritty"
+  browser = "firefox"
