@@ -2,6 +2,7 @@
   [packages.cli]
   command_line_shell = "bash"
   text_editor = "helix"
+  file_manager = "nnn"
 
   [packages.gui]
   terminal = "alacritty"
