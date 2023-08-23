@@ -14,12 +14,14 @@
   * Tiled (and not fullscreen)
   * Fullscreen
 * Pinning clears tiled and fullscreen states and vice versa. Pinning also shows on all workstations within instance. Only one pinned window per instance.
-* Displays attach to workspaces and can be moved across them but only one display can be assigned to each workspace.
+* Screens attach to workspaces and can be moved across them.
+* Workspaces adjust their resolution only when going from a detatched to an attached state.
 * Screens can be arranged around the primary display as if in a 3x3 grid.
+* Screens can be rotated.
 * Windows smaller than the minimum window size are scaled.
 * Hub that sits on each display in the bottom left position.
 * Shortcut keys are configurable (for keyboard alternatives).
-* Windows always stay within screen boundaries, even when moving. Moving windows may resize them to fit but will only permanently resize them at the end of the move operation.
+* Windows always stay within screen boundaries (with configurable padding for curved edges and notches), even when moving. Moving windows may resize them to fit but will only permanently resize them at the end of the move operation.
 * Launching always opens a new process with windows on the current instance and workspace.
 * Restarting or loging out does not restore windows.
 * Hub contents:
@@ -32,25 +34,27 @@
 
 # Controls
 
+* Capslock is swapped to LeftClick.
 * Click: Select (and Raise if Floating).
 * MovePointer: Focus follows mouse.
 * Activate Hub: `[Meta (while held, or after double-press and until next press)]`
 * Hub:
+  * Open Launcher: `[Space]`, `[Click on Launcher or Status Bar]`
+  * Open cheatsheet: `[Click on Hub Instance and Workspace indicator]`
   * Switch window through layers: `[j/k]`, `[Vertical scroll (or swipe 2 up/down)]`
-  * Switch workspace: `[h/l]`, `[1234567890]`, `[Shift + Vertical scroll (or swipe 2 up/down)]`
-  * Move window to workspace: `[Shift + 12345678909]`
-  * Switch workspace with Selected window: `[Shift + j/k]`
-  * Swap (reordering) workspace: `[Shift + h/l]`
-  * Move / Resize window (selects window, also can reorder in tile mode): `[Drag top-left/bottom-right section]`
-  * Raise window or next window (to top of stack): `[Tab]`
+  * Switch window through tiled columns: `[h/l]`
+  * Switch workspace: `[,/.]`, `[1234567890]`, `[Shift + Vertical scroll (or swipe 2 up/down)]`
+  * Move window to workspace: `[Shift + 1234567890]`
+  * Switch workspace with window: `[Shift + ,/.]`
+  * Reorder workspaces: `[-/=]`
+  * Move / Resize window: `[Drag top-left/bottom-right section]`
+  * Raise / Switch window: `[Tab]`
   * Fullscreen window: `[Enter]`
   * Tile window: `[;]`
   * Pin window: `[p]`
   * Close window: `[q]`
   * Lock screen: `[Escape]`
-  * Switch instance: `[./,]`
-  * Open Launcher: `[Space]`, `[Click on Launcher or Status Bar]`
-  * Open cheatsheet: `[Click on Hub Instance and Workspace indicator]`
+  * Switch instance: `[<up>/<down>]`
 
 # Configs
 
