@@ -1,7 +1,8 @@
 [packages]
   [packages.cli]
   command_line_shell = "bash"
-  text_editor = "helix"
+  text_editor = "micro"
+  text_editor_modal = "helix"
   file_manager = "nnn"
 
   [packages.gui]
