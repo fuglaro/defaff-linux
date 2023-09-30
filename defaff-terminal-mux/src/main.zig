@@ -1,8 +1,5 @@
 //! 'nix Terminal Multiplexer sans the faff.
 
-const max_wins = 256;
-const io_buf_sz = 4096;
-
 const std = @import("std");
 const os = std.os;
 const termios = std.c.termios;
@@ -16,6 +13,12 @@ const ctermios = @cImport(@cInclude("termios.h"));
 extern fn forkpty(*os.fd_t, ?[*:0]const u8, ?*const termios, ?*const WinSize) os.pid_t;
 extern fn getpid() os.pid_t;
 extern fn waitpid(os.pid_t, ?*c_int, c_int) os.pid_t;
+
+const max_wins = 256;
+const io_buf_sz = 4096;
+
+var ibuf: [io_buf_sz]u8 = undefined;
+var ibufi = ibuf.len;
 
 /// Setup signal handlers for proxying SIGINT and responding to SIGCHLD.
 /// After registering, SIGINTS will interupt
@@ -32,8 +35,6 @@ var sigint: u32 = 0;
 fn handleSigInt(_: c_int) callconv(.C) void {
     _ = @atomicRmw(u32, &sigint, .Add, 1, .SeqCst);
 }
-// TODO: try asking the tty to not sigint on Ctrl+C instead of worrying about signal handling. Then SigInt to this process can abort.
-
 test "registerSigHandlers" {
     try registerSigHandlers();
     try tst.expect(sigint == 0);
@@ -46,8 +47,10 @@ test "registerSigHandlers" {
     try os.raise(os.SIG.INT);
     try tst.expect(sigint == 6);
 }
+// TODO XXX send Ctrl c to active subprocess on sigint.
 
 /// Manages a group of child terminals (windows),
+var wins = WinPool.init(in);
 const WinPool = struct {
     const Self = @This();
     fd: BoundedArray(File, max_wins), // Pseudo terminal connections for children.
@@ -79,6 +82,7 @@ const WinPool = struct {
         var fd = try self.fd.addOne();
         const pid = try self.pid.addOne();
         pid.* = try pty_child(fd, args, cols, rows);
+        _ = try os.fcntl(fd.handle, os.F.SETFL, os.O.NONBLOCK);
         var poll = try self.poll.addOne();
         poll.* = .{ .fd = fd.handle, .events = os.POLL.IN, .revents = 0 };
     }
@@ -105,8 +109,8 @@ const WinPool = struct {
         return &self.fd.constSlice()[i];
     }
 
-    // Clean up any ended processes, and return the process pid.
-    // Removes the entries from `pty` and `poll` and swaps the last entry into the gap.
+    /// Clean up any ended processes, and return the process pid.
+    /// Removes the entries from `pty` and `poll` and swaps the last entry into the gap.
     fn popKilled(self: *Self) ?os.pid_t {
         const pid = waitpid(-1, null, std.c.W.NOHANG);
         if (pid <= 0) return null;
@@ -120,94 +124,93 @@ const WinPool = struct {
         return null;
     }
 
-    // TODO XXX handle when cant write all bytes.
-    //TODO XXX fix waiting on all file descriptors and add test waitAndHandlePending? (see run currently)
-    fn waitAndHandlePending(self: *Self, out: *const File) !void {
-        var buf: [io_buf_sz]u8 = undefined;
-        std.debug.print("1\n", .{});
-        self.wait();
-        std.debug.print("2\n", .{});
-        const fds = self.fd.slice();
-        for (0..fds.len) |i| {
-            std.debug.print("    >\n", .{});
-            const f = self.ready(i) orelse continue;
-            const n = f.read(&buf) catch continue; // TODO XXX partial read / write?
-            if (i == 0) {
-                // Handle input.
-                // TODO: manage selected window.
-                const sel = fds[1]; // TODO: if empty?
-                std.debug.print("    3 >>>{s}<<<\n", .{buf});
-                _ = try sel.writeAll(&buf);
-                std.debug.print("    4\n", .{});
-                continue;
-            }
-            // Handle data from children.
+    /// XXX TODO test and doc
+    fn waitAndReap(self: *Self, out: *const File) !void {
+        // TODO fix
 
-            std.debug.print("  __{d} {d} [[[[[{s}]]]]]\n", .{ i, n, buf });
-            _ = try out.writeAll(&buf);
+        // TODO: manage selected window
+        const sel = 1; // TODO: when no process.
+        var buf: [io_buf_sz]u8 = undefined;
+        self.wait();
+        const fds = self.fd.slice();
+        // Handle data from children
+        for (1..fds.len) |i| {
+            const f = self.ready(i) orelse continue;
+            _ = f.read(&buf) catch continue;
+            _ = try out.writeAll(&buf); // TODO XXX pass to buffers
         }
-        // Cleanup finished processes.
-        std.debug.print("8\n", .{});
+        // Handle input
+        if (ibufi < ibuf.len) {
+            ibufi += os.write(fds[sel].handle, ibuf[ibufi..]) catch 0;
+        } else if (self.ready(0)) |f| {
+            if (f.read(&ibuf) catch 0 != 0) {
+                ibufi = os.write(fds[sel].handle, ibuf[0..]) catch 0;
+                // TODO XXX change everything to os.write like this. RAWWWW
+            }
+        }
+        if (ibufi < ibuf.len and ibuf[ibufi] == '\x00') ibufi = ibuf.len;
+        // Cleanup finished processes
         while (self.popKilled() != null) {}
-        std.debug.print("9\n", .{});
     }
 };
-
-test "WinPool waitAndHandlePending" {
-    var wins = WinPool.init(in);
+test "WinPool waitAndReap" {
     try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
-    try wins.waitAndHandlePending(&std.io.getStdOut());
+    try wins.waitAndReap(&std.io.getStdOut());
     // TODO XXX finish
     //var stdob = std.io.bufferedWriter(std.io.getStdOut().writer());
     //const stdo = stdob.writer();
     //try stdob.flush();
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
-
 test "WinPool fake stdin" {
     var fd: File = undefined;
     _ = try pty_child(&fd, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
-    var wins = WinPool.init(fd);
-    try tst.expect(wins.fd.get(0).handle == fd.handle);
-    try tst.expect(wins.pid.get(0) == 0);
+    var wins2 = WinPool.init(fd);
+    try tst.expect(wins2.fd.get(0).handle == fd.handle);
+    try tst.expect(wins2.pid.get(0) == 0);
     try fd.writeAll("hi\n");
-    wins.wait();
-    try tst.expect(wins.ready(0).? == &wins.fd.constSlice()[0]);
+    wins2.wait();
+    try tst.expect(wins2.ready(0).? == &wins2.fd.constSlice()[0]);
     const exp = "hi\r\n";
     var buf: [exp.len]u8 = undefined;
-    try tst.expectEqual(buf.len, try wins.fd.get(0).readAll(&buf));
+    try tst.expectEqual(buf.len, try wins2.fd.get(0).readAll(&buf));
     try tst.expectEqualStrings(exp, &buf);
     fd.close();
 }
-
 test "WinPool popKilled" {
-    var wins = WinPool.init(in);
     try tst.expect(wins.popKilled() == null);
     try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
     try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
+    _ = try os.fcntl(wins.fd.get(1).handle, os.F.SETFL, 0);
+    _ = try os.fcntl(wins.fd.get(2).handle, os.F.SETFL, 0);
     try tst.expect(wins.fd.len == 3);
     var buf: [io_buf_sz]u8 = undefined;
-    _ = try wins.fd.get(1).read(&buf);
-    try tst.expect(wins.popKilled().? != 0);
-    _ = try wins.fd.get(1).read(&buf);
-    try tst.expect(wins.popKilled().? != 0); // TODO XXX this is stil sometimes null...
+    _ = wins.fd.get(1).read(&buf) catch 0;
+    _ = wins.fd.get(2).read(&buf) catch 0;
+    wins.fd.get(1).close();
+    wins.fd.get(2).close();
+    try tst.expect(wins.popKilled() orelse 0 != 0);
+    try tst.expect(wins.popKilled() orelse 0 != 0);
     try tst.expect(wins.popKilled() == null);
     try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
-    _ = try wins.fd.get(1).read(&buf);
+    _ = try os.fcntl(wins.fd.get(1).handle, os.F.SETFL, 0);
+    _ = wins.fd.get(1).read(&buf) catch 0;
+    wins.fd.get(1).close();
     try tst.expectEqual(wins.pid.get(1), wins.popKilled().?);
     try tst.expect(wins.fd.len == 1);
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
-
 test "WinPool popKilled no hang" {
-    var wins = WinPool.init(in);
     const start = std.time.milliTimestamp();
     try wins.append(&([_:null]?[*:0]const u8{ "sleep", "2" }), 0, 0);
     try tst.expect(wins.popKilled() == null);
     try tst.expect(std.time.milliTimestamp() < start + 100);
+    try wins.append(&([_:null]?[*:0]const u8{ "sleep", "0.001" }), 0, 0); // TODO XXX remove this line
     wins.fd.get(1).close();
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
+    try tst.expect(std.time.milliTimestamp() < start + 100);
 }
-
 test "WinPool wait interrupted by sigchild" {
-    var wins = WinPool.init(in);
     const start = std.time.milliTimestamp();
     try wins.append(&([_:null]?[*:0]const u8{ "sleep", "2" }), 0, 0);
     try wins.append(&([_:null]?[*:0]const u8{ "sleep", "0.001" }), 0, 0);
@@ -215,9 +218,9 @@ test "WinPool wait interrupted by sigchild" {
     try tst.expect(std.time.milliTimestamp() < start + 100);
     wins.fd.get(1).close();
     wins.fd.get(2).close();
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
 test "WinPool wait interrupted by sigint" {
-    var wins = WinPool.init(in);
     const start = std.time.milliTimestamp();
     try wins.append(&([_:null]?[*:0]const u8{
         "sh", "-c",
@@ -226,12 +229,13 @@ test "WinPool wait interrupted by sigint" {
     wins.wait();
     try tst.expect(std.time.milliTimestamp() < start + 100);
     wins.fd.get(1).close();
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
-
 test "WinPool append and read" {
-    var wins = WinPool.init(in);
     try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
     try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
+    _ = try os.fcntl(wins.fd.get(1).handle, os.F.SETFL, 0);
+    _ = try os.fcntl(wins.fd.get(2).handle, os.F.SETFL, 0);
     const exp = "pong\r\n";
     var buf: [exp.len]u8 = undefined;
     for (1..9) |i| {
@@ -241,10 +245,9 @@ test "WinPool append and read" {
     }
     wins.fd.get(1).close();
     wins.fd.get(2).close();
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
-
 test "WinPool wait and ready" {
-    var wins = WinPool.init(in);
     try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
     try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
     const exp = "pong\r\n";
@@ -266,6 +269,7 @@ test "WinPool wait and ready" {
     try tst.expectEqualStrings(exp, &buf);
     wins.fd.get(1).close();
     wins.fd.get(2).close();
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
 
 /// Launch a child process through a new pseudo terminal connection.
@@ -302,7 +306,6 @@ fn pty_child(fd: *File, args: [*:null]const ?[*:0]const u8, cols: u16, rows: u16
     // Handle parent fork
     return pid;
 }
-
 test "pty_child repeat io" {
     var fd: File = undefined;
     _ = try pty_child(&fd, &([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
@@ -315,7 +318,6 @@ test "pty_child repeat io" {
     }
     fd.close();
 }
-
 test "pty_child hello world" {
     var fd: File = undefined;
     _ = try pty_child(&fd, &([_:null]?[*:0]const u8{ "echo", "hello" }), 0, 0);
@@ -326,7 +328,6 @@ test "pty_child hello world" {
     try tst.expectEqualStrings(exp, &buf);
     fd.close();
 }
-
 test "pty_child win size set" {
     var fd: File = undefined;
     _ = try pty_child(&fd, &([_:null]?[*:0]const u8{ "tput", "cols", "lines" }), 11, 22);
@@ -336,26 +337,48 @@ test "pty_child win size set" {
     try tst.expectEqualStrings(exp, &buf);
     fd.close();
 }
+test "pty_child start stop" {
+    var fd: File = undefined;
+    const start = std.time.milliTimestamp();
+
+    // Check Ctrl+C termination
+    var pid = try pty_child(&fd, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
+    // Ensure process is active before sending ^C
+    try fd.writeAll("x");
+    var bufc = [_]u8{0};
+    _ = try fd.readAll(&bufc);
+    // Send ^C to terminate
+    try fd.writeAll("\x03");
+    while (pid != waitpid(-1, null, std.c.W.NOHANG)) {}
+
+    // Test termination via closing file descriptor
+    pid = try pty_child(&fd, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
+    fd.close();
+    while (pid != waitpid(-1, null, std.c.W.NOHANG)) {}
+
+    try tst.expect(std.time.milliTimestamp() < start + 100);
+}
 
 pub fn main() !void {
+    // TODO XXX whoops, go back to signal handlers since this can't be allowed to change the stdin as it may be used after the program ends.
+    // MAYBE ?????? XXX XXX XXX
     // Set up stdin for proxying // TODO XXX test this be pushing to a separate function.
-    var tm = try std.os.tcgetattr(in.handle);
+    //    var tm = try std.os.tcgetattr(in.handle);
     // Ensure we don't capture things like ^C -> SIGONT
-    tm.iflag = 0;
-    tm.lflag = 0;
-    try std.os.tcsetattr(in.handle, std.c.TCSA.NOW, tm);
-
-    // Set up Window Management
-    var wins = WinPool.init(in);
+    //    tm.iflag = 0;
+    //    tm.lflag = 0;
+    //    try std.os.tcsetattr(in.handle, std.c.TCSA.NOW, tm);
 
     //var gmem = std.heap.GeneralPurposeAllocator(.{}){};
     //const gpa = gmem.allocator();
 
     const out = std.io.getStdOut();
 
-    try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/X/V/g" }), 80, 40);
+    // XXX TODO handle tab chars send recieve behavior
+    try wins.append(&([_:null]?[*:0]const u8{"sh"}), 80, 40);
     while (wins.fd.len > 1) {
-        std.debug.print(".\n", .{});
-        try wins.waitAndHandlePending(&out);
+        std.debug.print("\n___________________________________________________________________\n", .{});
+        try wins.waitAndReap(&out);
     }
+    while (wins.popKilled() != null or wins.fd.len > 1) {}
 }
