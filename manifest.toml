@@ -4,7 +4,7 @@
   text_editor = "micro"
   text_editor_modal = "helix"
   file_manager = "nnn"
-  searcg = "ripgrep"
+  search = "ripgrep"
 
   [packages.gui]
   terminal = "alacritty"
