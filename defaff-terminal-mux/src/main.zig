@@ -18,7 +18,8 @@ const max_wins = 256;
 const io_buf_sz = 4096;
 
 var ibuf: [io_buf_sz]u8 = undefined;
-var ibufi = ibuf.len;
+var ibufi: usize = 0;
+var ibufc: usize = 0;
 
 /// Setup signal handlers for proxying SIGINT and responding to SIGCHLD.
 /// After registering, SIGINTS will interupt
@@ -63,7 +64,7 @@ const WinPool = struct {
             .pid = BoundedArray(os.pid_t, max_wins).init(1) catch unreachable,
             .poll = BoundedArray(os.pollfd, max_wins).init(1) catch unreachable,
         };
-        // Add stdin at index 0
+        // Add fd(stdin) at index 0
         w.pid.set(0, 0);
         w.poll.set(0, .{ .fd = fd, .events = os.POLL.IN, .revents = 0 });
         return w;
@@ -136,15 +137,16 @@ const WinPool = struct {
             _ = os.read(f, &buf) catch continue;
             _ = try out.writeAll(&buf); // TODO XXX pass to buffers
         }
-        // Handle input
-        if (ibufi < ibuf.len) {
-            ibufi += os.write(ps[sel].fd, ibuf[ibufi..]) catch 0;
-        } else if (self.ready(0)) |f| {
-            if (os.read(f, &ibuf) catch 0 != 0) {
-                ibufi = os.write(ps[sel].fd, ibuf[0..]) catch 0;
-            }
+        // Buffer input
+        if (self.ready(0)) |f| ibufc += os.read(f, ibuf[ibufi..]) catch 0; // TODO XXX wraparound buffering
+        // Write buffered input
+        if (ibufi < ibufc) ibufi += os.write(ps[sel].fd, ibuf[ibufi..ibufc]) catch 0;
+        // Reset input buffer
+        if (ibufi == ibufc) {
+            ibufi = 0;
+            ibufc = 0;
         }
-        if (ibufi < ibuf.len and ibuf[ibufi] == '\x00') ibufi = ibuf.len;
+
         // Cleanup finished processes
         while (self.popKilled() != null) {}
     }
