@@ -14,7 +14,7 @@ extern fn forkpty(*os.fd_t, ?[*:0]const u8, ?*const termios, ?*const WinSize) os
 extern fn getpid() os.pid_t;
 extern fn waitpid(os.pid_t, ?*c_int, c_int) os.pid_t;
 
-const max_wins = 256;
+const max_pool = 256;
 const io_buf_sz = 4096;
 
 var ibuf: [io_buf_sz]u8 = undefined;
@@ -51,23 +51,23 @@ test "registerSigHandlers" {
 // TODO XXX send Ctrl c to active subprocess on sigint.
 
 /// Manages a group of child terminals (windows),
-var wins = WinPool.init(in.handle);
-const WinPool = struct {
+var pool = Pool.init(in.handle);
+const Pool = struct {
     const Self = @This();
-    pid: BoundedArray(os.pid_t, max_wins), // Process ids for children
-    poll: BoundedArray(os.pollfd, max_wins), // Handles for terminal connections
+    pid: BoundedArray(os.pid_t, max_pool), // Process ids for children
+    poll: BoundedArray(os.pollfd, max_pool), // Handles for terminal connections
 
     /// Initialise the Window Pool,
     /// with the first entry being passed in with `fd`.
-    fn init(fd: os.fd_t) WinPool {
-        var w = WinPool{
-            .pid = BoundedArray(os.pid_t, max_wins).init(1) catch unreachable,
-            .poll = BoundedArray(os.pollfd, max_wins).init(1) catch unreachable,
+    fn init(fd: os.fd_t) Pool {
+        var p = Pool{
+            .pid = BoundedArray(os.pid_t, max_pool).init(1) catch unreachable,
+            .poll = BoundedArray(os.pollfd, max_pool).init(1) catch unreachable,
         };
         // Add fd(stdin) at index 0
-        w.pid.set(0, 0);
-        w.poll.set(0, .{ .fd = fd, .events = os.POLL.IN, .revents = 0 });
-        return w;
+        p.pid.set(0, 0);
+        p.poll.set(0, .{ .fd = fd, .events = os.POLL.IN, .revents = 0 });
+        return p;
     }
 
     /// Execute a new pseudo terminal command in a new window.
@@ -134,8 +134,10 @@ const WinPool = struct {
         // Handle data from children
         for (1..ps.len) |i| {
             const f = self.ready(i) orelse continue;
-            _ = os.read(f, &buf) catch continue;
+            std.debug.print("<", .{});
+            const rlen = os.read(f, &buf) catch continue;
             _ = try out.writeAll(&buf); // TODO XXX pass to buffers
+            std.debug.print("|{d}", .{rlen});
         }
         // Buffer input
         if (self.ready(0)) |f| ibufc += os.read(f, ibuf[ibufi..]) catch 0; // TODO XXX wraparound buffering
@@ -151,128 +153,128 @@ const WinPool = struct {
         while (self.popKilled() != null) {}
     }
 };
-test "WinPool waitAndReap" {
-    try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
-    try wins.waitAndReap(&std.io.getStdOut());
+test "Pool waitAndReap" {
+    try pool.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
+    try pool.waitAndReap(&std.io.getStdOut());
     // TODO XXX finish
     //var stdob = std.io.bufferedWriter(std.io.getStdOut().writer());
     //const stdo = stdob.writer();
     //try stdob.flush();
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
-test "WinPool fake stdin" {
+test "Pool fake stdin" {
     var fd: File = undefined;
     _ = try pty_child(&fd.handle, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
-    var wins2 = WinPool.init(fd.handle);
-    try tst.expect(wins2.poll.get(0).fd == fd.handle);
-    try tst.expect(wins2.pid.get(0) == 0);
+    var pool2 = Pool.init(fd.handle);
+    try tst.expect(pool2.poll.get(0).fd == fd.handle);
+    try tst.expect(pool2.pid.get(0) == 0);
     try fd.writeAll("hi\n");
-    wins2.wait();
-    try tst.expect(wins2.ready(0).? == wins2.poll.constSlice()[0].fd);
+    pool2.wait();
+    try tst.expect(pool2.ready(0).? == pool2.poll.constSlice()[0].fd);
     const exp = "hi\r\n";
     var buf: [exp.len]u8 = undefined;
-    var f: File = .{ .handle = wins2.poll.get(0).fd };
+    var f: File = .{ .handle = pool2.poll.get(0).fd };
     try tst.expectEqual(buf.len, try f.readAll(&buf));
     try tst.expectEqualStrings(exp, &buf);
     fd.close();
 }
-test "WinPool popKilled" {
-    try tst.expect(wins.popKilled() == null);
-    try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
-    try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
-    _ = try os.fcntl(wins.poll.get(1).fd, os.F.SETFL, 0);
-    _ = try os.fcntl(wins.poll.get(2).fd, os.F.SETFL, 0);
-    try tst.expect(wins.poll.len == 3);
+test "Pool popKilled" {
+    try tst.expect(pool.popKilled() == null);
+    try pool.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
+    try pool.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
+    _ = try os.fcntl(pool.poll.get(1).fd, os.F.SETFL, 0);
+    _ = try os.fcntl(pool.poll.get(2).fd, os.F.SETFL, 0);
+    try tst.expect(pool.poll.len == 3);
     var buf: [io_buf_sz]u8 = undefined;
-    _ = os.read(wins.poll.get(1).fd, &buf) catch 0;
-    _ = os.read(wins.poll.get(2).fd, &buf) catch 0;
-    os.close(wins.poll.get(1).fd);
-    os.close(wins.poll.get(2).fd);
-    try tst.expect(wins.popKilled() orelse 0 != 0);
-    try tst.expect(wins.popKilled() orelse 0 != 0);
-    try tst.expect(wins.popKilled() == null);
-    try wins.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
-    _ = try os.fcntl(wins.poll.get(1).fd, os.F.SETFL, 0);
-    _ = os.read(wins.poll.get(1).fd, &buf) catch 0;
-    os.close(wins.poll.get(1).fd);
-    try tst.expectEqual(wins.pid.get(1), wins.popKilled().?);
-    try tst.expect(wins.poll.len == 1);
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    _ = os.read(pool.poll.get(1).fd, &buf) catch 0;
+    _ = os.read(pool.poll.get(2).fd, &buf) catch 0;
+    os.close(pool.poll.get(1).fd);
+    os.close(pool.poll.get(2).fd);
+    try tst.expect(pool.popKilled() orelse 0 != 0);
+    try tst.expect(pool.popKilled() orelse 0 != 0);
+    try tst.expect(pool.popKilled() == null);
+    try pool.append(&([_:null]?[*:0]const u8{ "cat", "/dev/null" }), 0, 0);
+    _ = try os.fcntl(pool.poll.get(1).fd, os.F.SETFL, 0);
+    _ = os.read(pool.poll.get(1).fd, &buf) catch 0;
+    os.close(pool.poll.get(1).fd);
+    try tst.expectEqual(pool.pid.get(1), pool.popKilled().?);
+    try tst.expect(pool.poll.len == 1);
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
-test "WinPool popKilled no hang" {
+test "Pool popKilled no hang" {
     const start = std.time.milliTimestamp();
-    try wins.append(&([_:null]?[*:0]const u8{ "sleep", "2" }), 0, 0);
-    try tst.expect(wins.popKilled() == null);
+    try pool.append(&([_:null]?[*:0]const u8{ "sleep", "2" }), 0, 0);
+    try tst.expect(pool.popKilled() == null);
     try tst.expect(std.time.milliTimestamp() < start + 100);
-    try wins.append(&([_:null]?[*:0]const u8{ "sleep", "0.001" }), 0, 0); // TODO XXX remove this line
-    os.close(wins.poll.get(1).fd);
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    try pool.append(&([_:null]?[*:0]const u8{ "sleep", "0.001" }), 0, 0); // TODO XXX remove this line
+    os.close(pool.poll.get(1).fd);
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
     try tst.expect(std.time.milliTimestamp() < start + 100);
 }
-test "WinPool wait interrupted by sigchild" {
+test "Pool wait interrupted by sigchild" {
     const start = std.time.milliTimestamp();
-    try wins.append(&([_:null]?[*:0]const u8{ "sleep", "2" }), 0, 0);
-    try wins.append(&([_:null]?[*:0]const u8{ "sleep", "0.001" }), 0, 0);
-    wins.wait();
+    try pool.append(&([_:null]?[*:0]const u8{ "sleep", "2" }), 0, 0);
+    try pool.append(&([_:null]?[*:0]const u8{ "sleep", "0.001" }), 0, 0);
+    pool.wait();
     try tst.expect(std.time.milliTimestamp() < start + 100);
-    os.close(wins.poll.get(1).fd);
-    os.close(wins.poll.get(2).fd);
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    os.close(pool.poll.get(1).fd);
+    os.close(pool.poll.get(2).fd);
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
-test "WinPool wait interrupted by sigint" {
+test "Pool wait interrupted by sigint" {
     const start = std.time.milliTimestamp();
-    try wins.append(&([_:null]?[*:0]const u8{
+    try pool.append(&([_:null]?[*:0]const u8{
         "sh", "-c",
         \\sleep 0.001; kill -s=INT `ps -o ppid= -p $$` > /dev/null; sleep 2
     }), 0, 0);
-    wins.wait();
+    pool.wait();
     try tst.expect(std.time.milliTimestamp() < start + 100);
-    os.close(wins.poll.get(1).fd);
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    os.close(pool.poll.get(1).fd);
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
-test "WinPool append and read" {
-    try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
-    try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
-    _ = try os.fcntl(wins.poll.get(1).fd, os.F.SETFL, 0);
-    _ = try os.fcntl(wins.poll.get(2).fd, os.F.SETFL, 0);
+test "Pool append and read" {
+    try pool.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
+    try pool.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
+    _ = try os.fcntl(pool.poll.get(1).fd, os.F.SETFL, 0);
+    _ = try os.fcntl(pool.poll.get(2).fd, os.F.SETFL, 0);
     const exp = "ping\r\npong\r\n";
     var buf: [exp.len]u8 = undefined;
     for (1..9) |i| {
-        var f: File = .{ .handle = wins.poll.get(i % 2 + 1).fd };
+        var f: File = .{ .handle = pool.poll.get(i % 2 + 1).fd };
         try f.writeAll("ping\n");
         try tst.expectEqual(buf.len, try f.readAll(&buf));
         try tst.expectEqualStrings(exp, &buf);
     }
-    os.close(wins.poll.get(1).fd);
-    os.close(wins.poll.get(2).fd);
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    os.close(pool.poll.get(1).fd);
+    os.close(pool.poll.get(2).fd);
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
-test "WinPool wait and ready" {
-    try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
-    try wins.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
+test "Pool wait and ready" {
+    try pool.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
+    try pool.append(&([_:null]?[*:0]const u8{ "sed", "-e", "s/ping/pong/" }), 0, 0);
     const exp = "ping\r\npong\r\n";
     var buf: [exp.len]u8 = undefined;
     // Communicate with second process
-    var f: File = .{ .handle = wins.poll.get(2).fd };
+    var f: File = .{ .handle = pool.poll.get(2).fd };
     try f.writeAll("ping\n");
-    wins.wait();
-    try tst.expect(wins.ready(1) == null);
-    try tst.expect(wins.ready(2).? == wins.poll.get(2).fd);
-    _ = try os.fcntl(wins.poll.get(2).fd, os.F.SETFL, 0);
+    pool.wait();
+    try tst.expect(pool.ready(1) == null);
+    try tst.expect(pool.ready(2).? == pool.poll.get(2).fd);
+    _ = try os.fcntl(pool.poll.get(2).fd, os.F.SETFL, 0);
     try tst.expectEqual(buf.len, try f.readAll(&buf));
     try tst.expectEqualStrings(exp, &buf);
     // Communicate with first process
-    f = .{ .handle = wins.poll.get(1).fd };
+    f = .{ .handle = pool.poll.get(1).fd };
     try f.writeAll("ping\n");
-    wins.wait();
-    try tst.expect(wins.ready(1).? == wins.poll.get(1).fd);
-    try tst.expect(wins.ready(2) == null);
-    _ = try os.fcntl(wins.poll.get(1).fd, os.F.SETFL, 0);
+    pool.wait();
+    try tst.expect(pool.ready(1).? == pool.poll.get(1).fd);
+    try tst.expect(pool.ready(2) == null);
+    _ = try os.fcntl(pool.poll.get(1).fd, os.F.SETFL, 0);
     try tst.expectEqual(buf.len, try f.readAll(&buf));
     try tst.expectEqualStrings(exp, &buf);
-    os.close(wins.poll.get(1).fd);
-    os.close(wins.poll.get(2).fd);
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    os.close(pool.poll.get(1).fd);
+    os.close(pool.poll.get(2).fd);
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
 
 /// Launch a child process through a new pseudo terminal connection.
@@ -344,33 +346,29 @@ test "pty_child start stop" {
     var fd: File = .{ .handle = 0 };
     const start = std.time.milliTimestamp();
 
-    // Check Ctrl+C termination
-    var pid = try pty_child(&fd.handle, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
-    // Ensure process is active before sending ^C
+    const pid = try pty_child(&fd.handle, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
+    // Ensure process is active
     try fd.writeAll("x");
     var bufc = [_]u8{ 0, 0 };
     _ = try fd.readAll(&bufc);
-    // Send ^C to terminate
-    try fd.writeAll("\x03");
-    while (pid != waitpid(-1, null, std.c.W.NOHANG)) {}
-
-    // Test termination via closing file descriptor
-    pid = try pty_child(&fd.handle, &([_:null]?[*:0]const u8{"cat"}), 0, 0);
+    // Check termination
     fd.close();
     while (pid != waitpid(-1, null, std.c.W.NOHANG)) {}
-
     try tst.expect(std.time.milliTimestamp() < start + 100);
 }
+// TODO XXX Handle Ctrl+c
 
 pub fn main() !void {
     // TODO XXX whoops, go back to signal handlers since this can't be allowed to change the stdin as it may be used after the program ends.
     // MAYBE ?????? XXX XXX XXX
     // Set up stdin for proxying // TODO XXX test this be pushing to a separate function.
-    //    var tm = try os.tcgetattr(in.handle);
-    // Ensure we don't capture things like ^C -> SIGONT
-    //    tm.iflag = 0;
-    //    tm.lflag = 0;
-    //    try os.tcsetattr(in.handle, std.c.TCSA.NOW, tm);
+    var tm = try os.tcgetattr(in.handle);
+    // Ensure we don't capture things like ^C -> SIGINT
+    //tm.cflag = 0;
+    //tm.oflag = 0; XXX TODO
+    tm.iflag = 0;
+    tm.lflag = 0;
+    try os.tcsetattr(in.handle, std.c.TCSA.NOW, tm);
 
     //var gmem = std.heap.GeneralPurposeAllocator(.{}){};
     //const gpa = gmem.allocator();
@@ -378,10 +376,10 @@ pub fn main() !void {
     const out = std.io.getStdOut();
 
     // XXX TODO handle tab chars send recieve behavior
-    try wins.append(&([_:null]?[*:0]const u8{"sh"}), 80, 40);
-    while (wins.poll.len > 1) {
+    try pool.append(&([_:null]?[*:0]const u8{"sh"}), 80, 40);
+    while (pool.poll.len > 1) {
         std.debug.print("|\n___________________________________________________________________\n", .{});
-        try wins.waitAndReap(&out);
+        try pool.waitAndReap(&out);
     }
-    while (wins.popKilled() != null or wins.poll.len > 1) {}
+    while (pool.popKilled() != null or pool.poll.len > 1) {}
 }
