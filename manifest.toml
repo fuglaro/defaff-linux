@@ -5,6 +5,7 @@
   text_editor_modal = "helix"
   file_manager = "nnn"
   search = "ripgrep"
+  font = "NotoMono Nerd Font"
 
   [packages.gui]
   terminal = "alacritty"
