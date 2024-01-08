@@ -4,7 +4,7 @@
 *  ⊞ +     `Space` - **LAUNCH** a new windowed application.
 *  ⊞ + `Backspace` - **CLOSE** the selected window.
 *  ⊞ +      `Drag` - **MOVE**/resize/tab windows by dragging the left/right/top.
-*  ⊞ +        `,.` - **WS**(workspace) change (also ⊞+Shift+Scroll).
+*  ⊞ +  `,.`/`1-9` - **WS**(workspace) change (also ⊞+Shift+Scroll).
 *  ⊞ +      `hjkl` - **NAV**igate between windows and tabs (also ⊞+Scroll).
 *  ⊞ +       `Tab` - **SWAP** between windows (raising them to the top).
 *  ⊞ +     `Enter` - **MAX**imize to fullscreen (toggle).
