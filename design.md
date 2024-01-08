@@ -1,6 +1,6 @@
 # Controls
 
-**Press and hold the WIN/CMD/META (⊞) key to activate the hub:**
+**Press and hold, or double press, the WIN/CMD/META (⊞) key to activate the hub:**
 *  ⊞ +     `Space` - **LAUNCH** a new windowed application.
 *  ⊞ + `Backspace` - **CLOSE** the selected window.
 *  ⊞ +      `Drag` - **MOVE**/resize/tab windows by dragging the left/right/top.
