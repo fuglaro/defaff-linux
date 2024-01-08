@@ -10,7 +10,7 @@
 *  ⊞ +     `Enter` - **MAX**imize to fullscreen (toggle).
 *  ⊞ +         `;` - **TILE** or float the window.
 *  ⊞ +         `:` - **SPLIT** tiling: span-right/new-column/stack-normally.
-*  ⊞ +    `Escape` - **EXIT** and either lock the screen, or disconnect.
+*  ⊞ +    `Escape` - **END** and either lock the screen, or disconnect.
 *  ⊞ +         `H` - **PIN** and hold the window above others.
 *  ⊞ +        `<>` - **YANK** window across workspaces, moving with it.
 *  ⊞ +        `JK` - **LIFT** the entire workspace to a new position.
