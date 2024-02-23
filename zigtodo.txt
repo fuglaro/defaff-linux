@@ -1,0 +1,1 @@
+* Inconsistent behavior for poll between Linux and MacOS. Only on Linux does it retry on signals.

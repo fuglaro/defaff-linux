@@ -1,0 +1,109 @@
+#!/bin/bash
+
+C0='0' # background
+C2='7' # control hint highlight
+C8='1' # status inactive
+C9='2' # status active
+
+C0='8;2;77;77;77' # background
+C1='7' # text
+C2='8;2;188;188;188' # control hint highlight
+C3='0' # control hint text
+C4='1' # button
+C5='5' # launch button
+C6='2' # workspace highlight
+C7='0' # status highlight
+C8='0' # status inactive
+C9='7' # status active
+CA='4'
+
+F0="\033[3${C0}m"
+F1="\033[3${C1}m"
+F2="\033[3${C2}m"
+F3="\033[3${C3}m"
+F4="\033[3${C4}m"
+F5="\033[3${C5}m"
+F6="\033[3${C6}m"
+F7="\033[3${C7}m"
+F8="\033[3${C8}m"
+F9="\033[3${C9}m"
+FA="\033[3${CA}m"
+B0="\033[4${C0}m"
+B1="\033[4${C1}m"
+B2="\033[4${C2}m"
+B3="\033[4${C3}m"
+B4="\033[4${C4}m"
+B5="\033[4${C5}m"
+B6="\033[4${C6}m"
+B7="\033[4${C7}m"
+B8="\033[4${C8}m"
+B9="\033[4${C9}m"
+BA="\033[4${CA}m"
+U0="\033[24m"
+U1="\033[4m"
+
+printf "\n"
+
+printf "\033[0m"
+SSL="${F0}${B2}${F3}"
+SSC="${F4}${B2}${F1}${B4}"
+SSR="${B0}${F4}"
+printf "${B0}${F3}${B2} 󰓫 +${F2}${B0}"
+printf "${SSL}󱁐 ${F5}${B2}${F1}${B5}󰐊OPEN${B0}${F5}"
+printf " "
+printf "${SSL}󱦱󰹹󱦰╲󰍽󰹺${SSC}nav${SSR}"
+printf "${SSL}󰍽󰁁 ${SSC}󰹶 ${SSR}"
+printf "${SSL}󰌒 ${SSC} ${SSR}"
+printf "${SSL}'${SSC}󰐃${SSR}"
+printf "${SSL}:${SSC} ${SSR}"
+printf "${SSL};${SSC}󰖰 ${SSR}"
+printf "${SSL}󰌑 ${SSC}󰖯 ${SSR}"
+printf "${SSL}󰭜 ${SSC} ${SSR}"
+printf "${SSL}󱊷 ${SSC} ${SSR}"
+printf " "
+printf "${SSL}{${FA}${B2}${F3}${BA}${FA}${B0}"
+printf "${SSL}<,${F6}${F3}${B6}1${U1}2${U0}345${F6}${B2}${F3}${B2}[${F7}${F1}${B7}6${F7}${B2}${F3}]${F6}${F3}${B6}789${F6}${B2}${F3}.>╱󰘶+󰍽󰹺${F6}${B0}"
+printf " "
+printf "${F9}󰖩 ${F8}󰂯 ${F1}"
+printf "${B7} 19:37"
+
+printf "\n\n"
+
+printf "\033[0m"
+SSL="${F0}${B2}${F3}"
+SSC="${F0}"
+printf "${F3}${B2} 󰓫+${F2}${B0}"
+printf "${SSL}󱁐 ${F5}${B2}${F1}${B5}󰐊${F5}${B0}"
+printf "${SSL}󱦱󰹹󱦰╲󰍽󰹺${SSC}"
+printf "${F3}󰍽󰁁${SSC}"
+printf "${F3}󰌒${SSC}"
+printf "${F3}'${SSC}"
+printf "${F3}:${SSC}"
+printf "${F3};${SSC}"
+printf "${F3}󰌑${SSC}"
+printf "${F3}󰭜${SSC}"
+printf "${F3}󱊷 "
+printf "${F2}${B0}"
+printf "${SSL}{${F3}${BA}${FA}${B0}"
+printf "${SSL}<,${F6}${F3}${B6}1${U1}2${U0}345${F6}${B2}${F3}${B2}[${F7}${F1}${B7}6${F7}${B2}${F3}]${F6}${F3}${B6}789${B2}.>╱󰘶+󰍽󰹺${F6}${B0}"
+printf "${B7}"
+
+printf "\n\n"
+
+printf "\033[0m"
+printf "${F5}${B0}${F1}${B5}󰐊${F5}${B0}"
+printf "${F3}${B2}<${F3}${BA}${B6}1${U1}2${U0}345${F7}${F1}${B7}6${F7}${B6}${F3}789${B2}>${F6}${B0}"
+printf "${F3}${B2}"
+printf "${B7}"
+
+printf "\n\n"
+
+
+printf "\033[0m"
+printf "${F1}${B5}󰐊"
+printf "${F3}${BA}${B6}6"
+printf "${F3}${B2}"
+printf "${B7}"
+printf "\033[0m\033[37m\033[40m"
+
+printf "\n\n"
