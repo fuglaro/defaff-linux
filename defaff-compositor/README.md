@@ -56,6 +56,7 @@ A Wayland Compositor that is simple, fast, focussed, and enabling extreme produc
   * Switch stack: `[./,]`
   * Open Launcher: `[Space]`, `[Click on Launcher or Status Bar]`
   * Open cheatsheet: `[Click on Hub Stack and Workspace indicator]`
+  * Copy / Paste: `[c/v]`
 
 # Configs
 
