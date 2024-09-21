@@ -5,6 +5,8 @@
   text_editor_modal = "helix"
   file_manager = "nnn"
   search = "ripgrep"
+  source_control = "git"
+  source_control_ui = "lazygit"
 
   [packages.gui]
   terminal = "alacritty"
