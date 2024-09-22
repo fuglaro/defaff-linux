@@ -5,27 +5,27 @@
 | `⊞ +            ` |  |
 | ---: | :--- |
 | `Space` | **OPEN** a new windowed application. |
-| `Drag` | **MOVE**/resize/tab windows by dragging the left/right/top. |
-| `hjkl` | **NAV**igate between windows and tabs (also ⊞+Scroll). |
+| `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
+| `hjkl` | **NAVIGATE** between windows and tabs (also ⊞+Scroll). |
 | `Tab` | **SWAP** between windows (raising them to the top). |
-| `,.` | **WS**(workspace) change (also ⊞+Shift+Scroll). |
-| `Enter` | **MAX**imize to fullscreen (toggle). |
+| `,.` | **DESKTOP** change (also ⊞+Shift+Scroll). |
+| `Enter` | **MAXIMIZE** to fullscreen (toggle). |
 | `;` | **TILE** or float the window (toggle). |
 | `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
 | `=` | **PIN** and hold the window above others. |
-| `<>` | **YANK** window across workspaces, moving with it. |
-| `[]` | **LIFT** the entire workspace to a new position. |
+| `<>` | **YANK** window across desktops, moving with it. |
+| `[]` | **LIFT** the entire desktop to a new position. |
 | `cv` | **COPY** and paste. |
-| `-` | **CONTEXT** switch (between 3 different sessions). |
+| `-` | **SESSION** switch (between 3 different sessions). |
 | `Backspace` | **CLOSE** the selected window. |
 | `Escape` | **EXIT** and either lock the screen, or disconnect. |
 
-* Hint: `⊞ + Spc/OPEN Drag/MOVE hjkl/NAV Tab/SWAP ,./WS Enter/MAX ;/TILE '/SPLIT <>/YANK []/LIFT =/PIN -/CONTEXT Bksp/CLOSE Esc/EXIT`
-* Meme: `⊞ + ⎵/OPEN ✥hjkl⇥/NAV ,.<>[]/WS ⏎/MAX ;'/TILE =/PIN cv/COPY -/↕ ⌫/X Esc/⛝`
+* Hint: `⊞ + Spc/OPEN Drag/MOVE hjkl/NAV Tab/SWAP ,./DESK Enter/MAX ;/TILE '/SPLIT <>/YANK []/LIFT =/PIN -/SESS Bksp/CLOSE Esc/EXIT`
+* Meme: `⊞ + ⎵/OPEN ✥hjkl⇥/NAV ,.<>[]/DESK ⏎/MAX ;'/TILE =/PIN cv/COPY -/↕ ⌫/X Esc/⛝`
 
 # Overview
 
-* Stack of windows distributed across 10 workspaces and organised in layers.
+* Stack of windows distributed across 10 desktops and organised in layers.
 * Window layering order:
   * Pinned
   * Hub (when active)
@@ -38,8 +38,8 @@
 * Navigating horizontally will jump through tabs, and then the columns of tiled mode.
 * One pixel borders except when fullscreen (secondary color, or primary if selected).
 * Pinning clears tiled and fullscreen states and vice versa.
-* Displays attach to workspaces and can be moved across them.
-* Workspaces adjust their resolution to the smallest attached display, and scales for larger displays.
+* Displays attach to desktops and can be moved across them.
+* Desktops adjust their resolution to the smallest attached display, and scales for larger displays.
 * Displays are arranged and rotated as if in a 3x3 grid.
 * Fullscreen windows that are also pinned are drawn across all displays.
 * Layout constrints:
@@ -47,9 +47,9 @@
   * There is a minimum windows size across all windows.
   * Windows always stay within display boundaries (with configurable padding for curved edges and notches), even when moving.
   * Moving windows may resize them to fit but will only permanently resize them at the end of the move operation.
-  * Windows may have their true position and size outside the display area, if the workspace size decreases, but those windows will still display within the workspace dimensions.
-  * Windows will be moved to other workspaces when dragging, if the mouse travels to a new workspace. 
-* Launching always opens a new process with windows on the current session and workspace.
+  * Windows may have their true position and size outside the display area, if the desktop size decreases, but those windows will still display within the desktop dimensions.
+  * Windows will be moved to other desktop when dragging, if the mouse travels to a new desktop. 
+* Launching always opens a new process with windows on the current session and desktop.
 * Restarting or loging out does not restore windows.
 * Hub sits on each display in the bottom left position.
 * Hub contents:
@@ -75,7 +75,7 @@
 * Tabs:
   * Tab by dragging to the top (100th of screen height) of another window.
   * Untab by dragging from the tab line.
-* 3 contexts providing different sessions, each with their own independent stack of windows and workspaces. 
+* 3 sessions, each with their own independent stack of windows and desktops. 
 * Capslock is remapped to Click.
 * Default colors:
   * Primary: #defaff
