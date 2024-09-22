@@ -56,6 +56,8 @@
   * Launcher: >
   * Indicator: 1:[1]234567890 (clicking opens help)
   * Status Bar (User + Systems)
+  * Pressing any of the Desktop switching shortcuts will expand the hub to display thumbnails of the desktops with the selected desktop highlighted.
+  * Pressing any of the Window switching shortcuts will display wireframes of all windows in the stack.
 * Tech stach:
   * Zig
   * Linux: Wayland
