@@ -123,3 +123,14 @@ launch="f"
 * `[Enter]` launches selection.
 
 * Integrate file browser for docs??? hmn :/
+
+# Lock Screen
+
+* The lock screen displays controls to:
+ * Log back in.
+ * Select a different Session (still requires unlocking).
+ * Shut Down.
+ * Disconnect.
+ * Restart.
+
+Shutting Down MAY give applications a short chance to cache unsaved data, but MUST NOT abort the shut down process with requests for focus or user input.
