@@ -5,23 +5,23 @@
 | `⊞ +            ` |  |
 | ---: | :--- |
 | `Space` | **OPEN** a new windowed application. |
-| `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
-| `Scroll` / `hjkl` | **NAVIGATE** between windows and tabs. |
 | `Tab` | **SWAP** between windows (raising them to the top). |
-| `HScroll` / `,.` | **DESKTOP** change. |
+| `hjkl` / `Scroll`| **NAVIGATE** between windows and tabs. |
+| `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
+| `,.` / `HScroll`| **DESKTOP** change. |
+| `<>` | **YANK** window across desktops, moving with it. |
+| `[]` | **LIFT** the entire desktop to a new position. |
 | `Enter` | **MAXIMIZE** to fullscreen (toggle). |
 | `;` | **TILE** or float the window (toggle). |
 | `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
 | `p` | **PIN** and hold the window above others. |
-| `<>` | **YANK** window across desktops, moving with it. |
-| `[]` | **LIFT** the entire desktop to a new position. |
 | `cv` | **COPY** and paste. |
 | `Backspace` | **CLOSE** the selected window. |
 | `Escape` | **EXIT** to the lock the screen. |
 
 | Mini Hint |
 | --- |
-| `⊞ +` `⎵`**OPEN** `⇥hjkl⦺✥⇕`**NAV** `,.<>[]⦺⇔`**DESK** `⏎`**⛶** `;'`**◫** `p`**⚲** `cv`**⎘** `⌫`**⛝** `Esc`**⏻** |
+| `⊞ +` `⎵`**OPEN** `⇥hjkl⦺⇕✥`**NAV** `,.<>[]⦺⇔`**DESK** `⏎`**⛶** `;'`**◫** `p`**⚲** `cv`**⎘** `⌫`**⛝** `Esc`**⏻** |
 
 # Overview
 
