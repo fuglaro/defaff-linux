@@ -22,10 +22,6 @@
 
 | Mini Hint |
 | --- |
-| `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `Scroll/hjkl`/**NAV** `Tab`/**SWAP** `Shift+Scroll/,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `p`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT** |
-
-| Mini Hint |
-| --- |
 | `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻** |
 
 # Overview
