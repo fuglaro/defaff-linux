@@ -16,13 +16,12 @@
 | `<>` | **YANK** window across desktops, moving with it. |
 | `[]` | **LIFT** the entire desktop to a new position. |
 | `cv` | **COPY** and paste. |
-| `-` | **SESSION** switch (between 3 different sessions). |
 | `Backspace` | **CLOSE** the selected window. |
-| `Escape` | **EXIT** and either lock the screen, or disconnect. |
+| `Escape` | **EXIT** to the lock the screen. |
 
 | Mini Hint |
 | --- |
-| `⊞ +` `⎵`**OPEN** `⦺✥⇕ hjkl⇥`**NAV** `⦺⇔ ,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**⚲** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻** |
+| `⊞ +` `⎵`**OPEN** `⦺⇕✥hjkl⇥`**NAV** `⦺⇔,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**⚲** `cv`**©** `⌫`**⛝** `Esc`**⏻** |
 
 # Overview
 
