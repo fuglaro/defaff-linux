@@ -21,7 +21,7 @@
 | `Escape` | **EXIT** and either lock the screen, or disconnect. |
 
 * Hint: `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `hjkl`/**NAV** `Tab`/**SWAP** `,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `=`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT**
-* Meme: `⊞ +` `⎵`**OPEN** `✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**MAX** `;'`**TILE** `=`**🖈** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻**
+* Meme: `⊞ +` `⎵`**OPEN** `✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**MAX** `;'`**▦** `=`**🖈** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻**
 
 # Overview
 
