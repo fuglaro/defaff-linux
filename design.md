@@ -1,21 +1,24 @@
 # Controls
 
 **Press and hold, or double press, the WIN/CMD/META (⊞) key to activate the hub:**
-*  `⊞ +     Space` **OPEN** a new windowed application.
-*  `⊞ +      Drag` **MOVE**/resize/tab windows by dragging the left/right/top.
-*  `⊞ +      hjkl` **NAV**igate between windows and tabs (also ⊞+Scroll).
-*  `⊞ +       Tab` **SWAP** between windows (raising them to the top).
-*  `⊞ +        ,.` **WS**(workspace) change (also ⊞+Shift+Scroll).
-*  `⊞ +     Enter` **MAX**imize to fullscreen (toggle).
-*  `⊞ +         ;` **TILE** or float the window (toggle).
-*  `⊞ +         '` **SPLIT** tiling: span-right/new-column/stack-normally.
-*  `⊞ +         =` **PIN** and hold the window above others.
-*  `⊞ +        <>` **YANK** window across workspaces, moving with it.
-*  `⊞ +        []` **LIFT** the entire workspace to a new position.
-*  `⊞ +        cv` **COPY** and paste.
-*  `⊞ +         -` **CONTEXT** switch (between 3 different sessions).
-*  `⊞ + Backspace` **CLOSE** the selected window.
-*  `⊞ +    Escape` **EXIT** and either lock the screen, or disconnect.
+
+| `⊞ +            ` |  |
+| ---: | :--- |
+| `Space` | **OPEN** a new windowed application. |
+| `Drag` | **MOVE**/resize/tab windows by dragging the left/right/top. |
+| `hjkl` | **NAV**igate between windows and tabs (also ⊞+Scroll). |
+| `Tab` | **SWAP** between windows (raising them to the top). |
+| `,.` | **WS**(workspace) change (also ⊞+Shift+Scroll). |
+| `Enter` | **MAX**imize to fullscreen (toggle). |
+| `;` | **TILE** or float the window (toggle). |
+| `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
+| `=` | **PIN** and hold the window above others. |
+| `<>` | **YANK** window across workspaces, moving with it. |
+| `[]` | **LIFT** the entire workspace to a new position. |
+| `cv` | **COPY** and paste. |
+| `-` | **CONTEXT** switch (between 3 different sessions). |
+| `Backspace` | **CLOSE** the selected window. |
+| `Escape` | **EXIT** and either lock the screen, or disconnect. |
 
 * Hint: `⊞ + Spc/OPEN Drag/MOVE hjkl/NAV Tab/SWAP ,./WS Enter/MAX ;/TILE '/SPLIT <>/YANK []/LIFT =/PIN -/CONTEXT Bksp/CLOSE Esc/EXIT`
 * Meme: `⊞ + ⎵/OPEN ✥hjkl⇥/NAV ,.<>[]/WS ⏎/MAX ;'/TILE =/PIN cv/COPY -/↕ ⌫/X Esc/⛝`
