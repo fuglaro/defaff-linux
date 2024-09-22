@@ -1,25 +1,25 @@
 # Controls
 
 **Press and hold, or double press, the WIN/CMD/META (⊞) key to activate the hub:**
+* (⊞ +)    `Click` - **SEL**ect window or tab, and raise to top if floating.
 *  ⊞ +     `Space` - **LAUNCH** a new windowed application.
 *  ⊞ + `Backspace` - **CLOSE** the selected window.
 *  ⊞ +      `Drag` - **MOVE**/resize/tab windows by dragging the left/right/top.
-*  ⊞ +  `,.`/`1-9` - **WS**(workspace) change (also ⊞+Shift+Scroll).
+*  ⊞ +        `,.` - **WS**(workspace) change (also ⊞+Shift+Scroll).
 *  ⊞ +      `hjkl` - **NAV**igate between windows and tabs (also ⊞+Scroll).
 *  ⊞ +       `Tab` - **SWAP** between windows (raising them to the top).
 *  ⊞ +     `Enter` - **MAX**imize to fullscreen (toggle).
-*  ⊞ +         `;` - **TILE** or float the window.
-*  ⊞ +         `:` - **SPLIT** tiling: span-right/new-column/stack-normally.
-*  ⊞ +    `Escape` - **END** and either lock the screen, or disconnect.
-*  ⊞ +         `H` - **PIN** and hold the window above others.
+*  ⊞ +         `;` - **TILE** or float the window (toggle).
+*  ⊞ +         `'` - **SPLIT** tiling: span-right/new-column/stack-normally.
+*  ⊞ +         `=` - **PIN** and hold the window above others.
 *  ⊞ +        `<>` - **YANK** window across workspaces, moving with it.
-*  ⊞ +        `JK` - **LIFT** the entire workspace to a new position.
-*  ⊞ +         `L` - **CONTEXT** switch (between 3 different sessions).
-*  ⊞ +     `C`/`V` - **COPY**/paste.
-* (⊞ +)    `Click` - **SEL**ect window or tab, and raise to top if floating.
+*  ⊞ +        `[]` - **LIFT** the entire workspace to a new position.
+*  ⊞ +        `cv` - **COPY** and paste.
+*  ⊞ +         `\` - **CONTEXT** switch (between 3 different sessions).
+*  ⊞ +    `Escape` - **END** and either lock the screen, or disconnect.
 
-* Hint: `⊞ + Spc-LAUNCH Bkspc-CLOSE Drag-MOVE ,.--WS hjkl-NAV Tab-SWAP Enter-MAX ;-TILE :-SPLIT Esc-EXIT <>-YANK JK-LIFT L-CONTEXT H-PIN`
-* Meme: `⊞ + ⎵ LNCH ⌫ X ,.<>JK WS hjkl⇥ NAV ⏎ MAX ;: TILE Esc ⛝ L ↕ H PIN`
+* Hint: `⊞ + Spc-LAUNCH Bkspc-CLOSE Drag-MOVE ,.-WS hjkl-NAV Tab-SWAP Enter-MAX ;-TILE '-SPLIT <>-YANK []-LIFT =-PIN \-CONTEXT Esc-EXIT`
+* Meme: `⊞ + ⎵/LNCH ⌫/X ,.<>[]/WS hjkl⇥/NAV ⏎/MAX ;'/TILE =/PIN cv/COPY \/↕ Esc/⛝`
 
 # Overview
 
