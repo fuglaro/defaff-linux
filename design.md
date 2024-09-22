@@ -15,6 +15,7 @@
 *  ⊞ +        `<>` - **YANK** window across workspaces, moving with it.
 *  ⊞ +        `JK` - **LIFT** the entire workspace to a new position.
 *  ⊞ +         `L` - **CONTEXT** switch (between 3 different sessions).
+*  ⊞ +     `C`/`V` - **COPY**/paste.
 * (⊞ +)    `Click` - **SEL**ect window or tab, and raise to top if floating.
 
 * Hint: `⊞ + Spc-LAUNCH Bkspc-CLOSE Drag-MOVE ,.--WS hjkl-NAV Tab-SWAP Enter-MAX ;-TILE :-SPLIT Esc-EXIT <>-YANK JK-LIFT L-CONTEXT H-PIN`
