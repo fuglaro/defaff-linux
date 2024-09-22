@@ -6,9 +6,9 @@
 | ---: | :--- |
 | `Space` | **OPEN** a new windowed application. |
 | `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
-| `Scroll` `hjkl` | **NAVIGATE** between windows and tabs. |
+| `Scroll` / `hjkl` | **NAVIGATE** between windows and tabs. |
 | `Tab` | **SWAP** between windows (raising them to the top). |
-| `⇧+Scroll` `,.` | **DESKTOP** change. |
+| `⇧+Scroll` / `,.` | **DESKTOP** change. |
 | `Enter` | **MAXIMIZE** to fullscreen (toggle). |
 | `;` | **TILE** or float the window (toggle). |
 | `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
