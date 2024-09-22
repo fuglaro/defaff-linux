@@ -12,7 +12,7 @@
 | `Enter` | **MAXIMIZE** to fullscreen (toggle). |
 | `;` | **TILE** or float the window (toggle). |
 | `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
-| `=` | **PIN** and hold the window above others. |
+| `p` | **PIN** and hold the window above others. |
 | `<>` | **YANK** window across desktops, moving with it. |
 | `[]` | **LIFT** the entire desktop to a new position. |
 | `cv` | **COPY** and paste. |
@@ -20,8 +20,8 @@
 | `Backspace` | **CLOSE** the selected window. |
 | `Escape` | **EXIT** and either lock the screen, or disconnect. |
 
-* Hint: `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `hjkl`/**NAV** `Tab`/**SWAP** `,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `=`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT**
-* Meme: `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `=`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻**
+* Hint: `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `hjkl`/**NAV** `Tab`/**SWAP** `,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `p`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT**
+* Meme: `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻**
 
 # Overview
 
