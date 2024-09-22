@@ -1,13 +1,11 @@
 # Controls
 
 **Press and hold, or double press, the WIN/CMD/META (⊞) key to activate the hub:**
-* (⊞ +)    `Click` - **SEL**ect window or tab, and raise to top if floating.
-*  ⊞ +     `Space` - **LAUNCH** a new windowed application.
-*  ⊞ + `Backspace` - **CLOSE** the selected window.
+*  ⊞ +     `Space` - **OPEN** a new windowed application.
 *  ⊞ +      `Drag` - **MOVE**/resize/tab windows by dragging the left/right/top.
-*  ⊞ +        `,.` - **WS**(workspace) change (also ⊞+Shift+Scroll).
 *  ⊞ +      `hjkl` - **NAV**igate between windows and tabs (also ⊞+Scroll).
 *  ⊞ +       `Tab` - **SWAP** between windows (raising them to the top).
+*  ⊞ +        `,.` - **WS**(workspace) change (also ⊞+Shift+Scroll).
 *  ⊞ +     `Enter` - **MAX**imize to fullscreen (toggle).
 *  ⊞ +         `;` - **TILE** or float the window (toggle).
 *  ⊞ +         `'` - **SPLIT** tiling: span-right/new-column/stack-normally.
@@ -16,10 +14,11 @@
 *  ⊞ +        `[]` - **LIFT** the entire workspace to a new position.
 *  ⊞ +        `cv` - **COPY** and paste.
 *  ⊞ +         `\` - **CONTEXT** switch (between 3 different sessions).
-*  ⊞ +    `Escape` - **END** and either lock the screen, or disconnect.
+*  ⊞ + `Backspace` - **CLOSE** the selected window.
+*  ⊞ +    `Escape` - **EXIT** and either lock the screen, or disconnect.
 
-* Hint: `⊞ + Spc-LAUNCH Bkspc-CLOSE Drag-MOVE ,.-WS hjkl-NAV Tab-SWAP Enter-MAX ;-TILE '-SPLIT <>-YANK []-LIFT =-PIN \-CONTEXT Esc-EXIT`
-* Meme: `⊞ + ⎵/LNCH ⌫/X ,.<>[]/WS hjkl⇥/NAV ⏎/MAX ;'/TILE =/PIN cv/COPY \/↕ Esc/⛝`
+* Hint: `⊞ + Spc/OPEN Drag/MOVE hjkl/NAV Tab/SWAP ,./WS Enter/MAX ;/TILE '/SPLIT <>/YANK []/LIFT =/PIN \/CONTEXT Bksp/CLOSE Esc/EXIT`
+* Meme: `⊞ + ⎵/OPEN ✥hjkl⇥/NAV ,.<>[]/WS ⏎/MAX ;'/TILE =/PIN cv/COPY \/↕ ⌫/X Esc/⛝`
 
 # Overview
 
