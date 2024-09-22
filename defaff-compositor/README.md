@@ -1,3 +1,7 @@
+
+SEE design.md at top of repo.
+
+
 # Overview
 
 A Wayland Compositor that is simple, fast, focussed, and enabling extreme productivity.
