@@ -8,7 +8,7 @@
 | `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
 | `Scroll` / `hjkl` | **NAVIGATE** between windows and tabs. |
 | `Tab` | **SWAP** between windows (raising them to the top). |
-| `⇧+Scroll` / `,.` | **DESKTOP** change. |
+| `HScroll` / `,.` | **DESKTOP** change. |
 | `Enter` | **MAXIMIZE** to fullscreen (toggle). |
 | `;` | **TILE** or float the window (toggle). |
 | `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
@@ -22,7 +22,7 @@
 
 | Mini Hint |
 | --- |
-| `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻** |
+| `⊞ +` `⎵`**OPEN** `⦺✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**⚲** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻** |
 
 # Overview
 
