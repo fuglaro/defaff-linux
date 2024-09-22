@@ -6,9 +6,9 @@
 | ---: | :--- |
 | `Space` | **OPEN** a new windowed application. |
 | `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
-| `hjkl` | **NAVIGATE** between windows and tabs (also ⊞+Scroll). |
+| `Scroll` `hjkl` | **NAVIGATE** between windows and tabs. |
 | `Tab` | **SWAP** between windows (raising them to the top). |
-| `,.` | **DESKTOP** change (also ⊞+Shift+Scroll). |
+| `⇧+Scroll` `,.` | **DESKTOP** change. |
 | `Enter` | **MAXIMIZE** to fullscreen (toggle). |
 | `;` | **TILE** or float the window (toggle). |
 | `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
@@ -20,8 +20,13 @@
 | `Backspace` | **CLOSE** the selected window. |
 | `Escape` | **EXIT** and either lock the screen, or disconnect. |
 
-* Hint: `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `Scroll/hjkl`/**NAV** `Tab`/**SWAP** `Shift+Scroll/,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `p`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT**
-* Meme: `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻**
+| Mini Hint |
+| --- |
+| `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `Scroll/hjkl`/**NAV** `Tab`/**SWAP** `Shift+Scroll/,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `p`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT** |
+
+| Mini Hint |
+| --- |
+| `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻** |
 
 # Overview
 
