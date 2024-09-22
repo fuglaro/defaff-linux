@@ -20,7 +20,7 @@
 | `Backspace` | **CLOSE** the selected window. |
 | `Escape` | **EXIT** and either lock the screen, or disconnect. |
 
-* Hint: `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `hjkl`/**NAV** `Tab`/**SWAP** `,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `p`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT**
+* Hint: `⊞ +` `Spc`/**OPEN** `Drag`/**MOVE** `Scroll/hjkl`/**NAV** `Tab`/**SWAP** `Shift+Scroll/,.`/**DESK** `Enter`/**MAX** `;`/**TILE** `'`/**SPLIT** `<>`/**YANK** `[]`/**LIFT** `p`/**PIN** `-`/**SESS** `Bksp`/**CLOSE** `Esc`/**EXIT**
 * Meme: `⊞ +` `⎵`**OPEN** `🖱✥hjkl⇥`**NAV** `,.<>[]`**DESK** `⏎`**⛶** `;'`**◫** `p`**📌** `cv`**©** `-`**↕** `⌫`**⛝** `Esc`**⏻**
 
 # Overview
