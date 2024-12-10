@@ -6,7 +6,9 @@
   file_manager = "nnn"
   search = "ripgrep"
   font = "NotoMono Nerd Font"
+  launcher = "fzf"
 
   [packages.gui]
   terminal = "alacritty"
   browser = "firefox"
+  launcher = "fzf"
