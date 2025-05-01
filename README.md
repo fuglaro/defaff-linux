@@ -6,3 +6,6 @@ Linux distribution as defaffware - powerful sans the faff
 * *Focus is Everything* - Desktop environments should be about productivity and entertainment. Notifications are an abomination to both. Notifications belong on suplementary devices only.
 * *Lightweight is Green* - Minimal resource utilisation is not just good for keeping things fast, when you consider scale, it's also good for the planet. This may be a bold statement for a humble fledgling distro, but, in this, we should all be pitching in.
 * *Mind the Learning Curve* - Powerful features sometimes comes at the cost of UI complexity. Vertical walls in the learning curve are rude, but don't just push the vertical wall deeper. Provide a gradual and meaningful path to learning powerful tools, with minimal trivia.
+
+# TODO
+* Investigate Cosmic Desktop to see how much aligns.
