@@ -26,7 +26,7 @@ Hint: `⊞ +` `⎵`**⏵** `⇥◅◊▻⦺⇕`**⎘** `;:`**◫** `'`**⚲** `,
 * The HUD can be closed with ⊞+⎵ or ⏎  or esc.
 * The HUD can also be opened by pushing the mouse pointer into the bottom left.
 * CapsLock⇪  key rebound to main mouse click.
-* CapsLock can be toggled with ⊞ +󰘶+⇪  or an alternate configured key.
+* CapsLock can be toggled with ⊞ +⇧+⇪  or an alternate configured key.
 * Exiting will first lock the screen.
 * Focus follows mouse, and clicking raises the window.
 
