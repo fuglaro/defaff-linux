@@ -16,7 +16,7 @@
 |  `<>` | **▯⇋** yank window across desks |
 |  `()` | **￭⇋** lift desk to new position |
 |   `~` | **⤹⩈** switch sessions |
-|  `cv` | **✂** copy and paste |
+|  `cv` | **✄** copy and paste |
 | `esc` | **⏻** escape to lock the screen or exit |
 
 Hint: `⊞ +` `⎵`**⏵** `⇥◅◊▻⦺⇕`**⎘** `;:`**◫** `'`**⚲** `,.<>()⇧⦺⇕`**￭￭** `⏎`**⛶** `⌫`**⛝** `~`**⤹⩈** `esc`**⏻**
