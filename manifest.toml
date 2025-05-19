@@ -7,6 +7,8 @@
   search = "ripgrep"
   font = "NotoMono Nerd Font"
   launcher = "fzf"
+  source_control = "git"
+  source_control_ui = "lazygit"
 
   [packages.gui]
   terminal = "alacritty"

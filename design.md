@@ -1,27 +1,64 @@
 # Controls
 
-**Press and hold, or double press, the WIN/CMD/META (⊞) key to activate the hub:**
+**Hold the ⊞ key (WIN/CMD) for shortcuts**:
+| `⊞ +` |  |
+| ----: | :--- |
+|   `⎵` | **⏵** launch space for HUD and apps |
+|   `⇥` | **⧉** tab swap windows |
+| `◅◊▻` | **⎘** nav across windows (or ⦺⇕) |
+|  `⦺⊹` | **⤡** drag/resize/tab on left/right/top |
+|   `;` | **◫** tile or float the window |
+|   `:` | **⌸** stack, chain or span tiled window |
+|   `'` | **⚲** pin window above everything |
+|   `⏎` | **⛶** enter or leave fullscreen |
+|   `⌫` | **☒** backspace close the window |
+|  `,.` | **￭▣** desk jump (or ⇧+⦺⇕ or 1-9) |
+|  `<>` | **▯⇋** yank window across desks |
+|  `()` | **￭⇋** lift desk to new position |
+|   `~` | **⤹⩈** switch sessions |
+|  `cv` | **✂** copy and paste |
+| `esc` | **⏻** escape to lock the screen or exit |
 
-| `⊞ +            ` |  |
-| ---: | :--- |
-| `Space` | **OPEN** a new windowed application. |
-| `Tab` | **SWAP** between windows (raising them to the top). |
-| `hjkl` / `Scroll`| **NAVIGATE** between windows and tabs. |
-| `Drag` | **MOVE** /resize/tab windows by dragging the left/right/top. |
-| `,.` / `HScroll`| **DESKTOP** change. |
-| `<>` | **YANK** window across desktops, moving with it. |
-| `[]` | **LIFT** the entire desktop to a new position. |
-| `Enter` | **MAXIMIZE** to fullscreen (toggle). |
-| `;` | **TILE** or float the window (toggle). |
-| `'` | **SPLIT** tiling: span-right/new-column/stack-normally. |
-| `p` | **PIN** and hold the window above others. |
-| `cv` | **COPY** and paste. |
-| `Backspace` | **CLOSE** the selected window. |
-| `Escape` | **EXIT** to the lock the screen. |
+Hint: `⊞ +` `⎵`**⏵** `⇥◅◊▻⦺⇕`**⎘** `;:`**◫** `'`**⚲** `,.<>()⇧⦺⇕`**￭￭** `⏎`**⛶** `⌫`**⛝** `~`**⤹⩈** `esc`**⏻**
 
-| Mini Hint |
-| --- |
-| `⊞ +` `⎵`**OPEN** `⇥hjkl⦺⇕✥`**NAV** `,.<>[]⦺⇔`**DESK** `⏎`**⛶** `;'`**◫** `p`**⚲** `cv`**⎘** `⌫`**⛝** `Esc`**⏻** |
+**Details:**
+* When the HUD is open, all shortcuts are active as if the ⊞ key is held.
+* The HUD can be closed with ⊞+⎵ or ⏎  or esc.
+* The HUD can also be opened by pushing the mouse pointer into the bottom left.
+* CapsLock⇪  key rebound to main mouse click.
+* CapsLock can be toggled with ⊞ +󰘶+⇪  or an alternate configured key.
+* Exiting will first lock the screen.
+* Focus follows mouse, and clicking raises the window.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# WIP
+
+* HUD.
+  * Shows stuff - time, status indicators, workspaces (top), launcher, help, window layout, and all other contols.
+  * Activating a shortcut or clicking on the section expands the relevant section.
+  * Alphabet keys search for applications to launch.
+  
+* There are two sessions that can be switched between.
+* There are nine desktops in each session to use as different workspaces.
+* Raising floating windows lift them to the top.
+* Consecutive navigation does not change last window used for swapping.
+
+
 
 # Overview
 
@@ -134,3 +171,4 @@ launch="f"
  * Restart.
 
 Shutting Down MAY give applications a short chance to cache unsaved data, but MUST NOT abort the shut down process with requests for focus or user input.
+=======
