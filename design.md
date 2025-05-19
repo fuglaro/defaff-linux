@@ -1,24 +1,63 @@
 # Controls
 
-**Press and hold the WIN/CMD/META (⊞) key to activate the hub:**
-*  ⊞ +     `Space` - **LAUNCH** a new windowed application.
-*  ⊞ + `Backspace` - **CLOSE** the selected window.
-*  ⊞ +      `Drag` - **MOVE**/resize/tab windows by dragging the left/right/top.
-*  ⊞ +        `,.` - **WS**(workspace) change (also ⊞+Shift+Scroll).
-*  ⊞ +      `hjkl` - **NAV**igate between windows and tabs (also ⊞+Scroll).
-*  ⊞ +       `Tab` - **SWAP** between windows (raising them to the top).
-*  ⊞ +     `Enter` - **MAX**imize to fullscreen (toggle).
-*  ⊞ +         `;` - **TILE** or float the window.
-*  ⊞ +         `:` - **SPLIT** tiling: span-right/new-column/stack-normally.
-*  ⊞ +    `Escape` - **EXIT** and either lock the screen, or disconnect.
-*  ⊞ +         `H` - **PIN** and hold the window above others.
-*  ⊞ +        `<>` - **YANK** window across workspaces, moving with it.
-*  ⊞ +        `JK` - **LIFT** the entire workspace to a new position.
-*  ⊞ +         `L` - **CONTEXT** switch (between 3 different sessions).
-* (⊞ +)    `Click` - **SEL**ect window or tab, and raise to top if floating.
+**Hold the ⊞ key (WIN/CMD) for shortcuts**:
+| `⊞ +` |  |
+| ----: | :--- |
+|   `⎵` | **⏵** launch space for HUD and apps |
+|   `⇥` | **⧉** tab swap windows |
+| `◅◊▻` | **⎘** nav across windows (or ⦺⇕) |
+|  `⦺⊹` | **⤡** drag/resize/tab on left/right/top |
+|   `;` | **◫** tile or float the window |
+|   `:` | **⌸** stack, chain or span tiled window |
+|   `'` | **⚲** pin window above everything |
+|   `⏎` | **⛶** enter or leave fullscreen |
+|   `⌫` | **☒** backspace close the window |
+|  `,.` | **￭▣** desk jump (or ⇧+⦺⇕ or 1-9) |
+|  `<>` | **▯⇋** yank window across desks |
+|  `()` | **￭⇋** lift desk to new position |
+|   `~` | **⤹⩈** switch sessions |
+| `esc` | **⏻** escape to lock the screen or exit |
 
-* Hint: `⊞ + Spc-LAUNCH Bkspc-CLOSE Drag-MOVE ,.--WS hjkl-NAV Tab-SWAP Enter-MAX ;-TILE :-SPLIT Esc-EXIT <>-YANK JK-LIFT L-CONTEXT H-PIN`
-* Meme: `⊞ + ⎵ LNCH ⌫ X ,.<>JK WS hjkl⇥ NAV ⏎ MAX ;: TILE Esc ⛝ L ↕ H PIN`
+Hint: `⊞ +` `⎵`**⏵** `⇥◅◊▻⦺⇕`**⎘** `;:`**◫** `'`**⚲** `,.<>()⇧⦺⇕`**￭￭** `⏎`**⛶** `⌫`**⛝** `~`**⤹⩈** `esc`**⏻**
+
+**Details:**
+* When the HUD is open, all shortcuts are active as if the ⊞ key is held.
+* The HUD can be closed with ⊞+⎵ or ⏎  or esc.
+* The HUD can also be opened by pushing the mouse pointer into the bottom left.
+* CapsLock⇪  key rebound to main mouse click.
+* CapsLock can be toggled with ⊞ +󰘶+⇪  or an alternate configured key.
+* Exiting will first lock the screen.
+* Focus follows mouse, and clicking raises the window.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# WIP
+
+* HUD.
+  * Shows stuff - time, status indicators, workspaces (top), launcher, help, window layout, and all other contols.
+  * Activating a shortcut or clicking on the section expands the relevant section.
+  * Alphabet keys search for applications to launch.
+  
+* There are two sessions that can be switched between.
+* There are nine desktops in each session to use as different workspaces.
+* Raising floating windows lift them to the top.
+* Consecutive navigation does not change last window used for swapping.
+
+
 
 # Overview
 
