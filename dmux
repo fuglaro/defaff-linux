@@ -1,0 +1,229 @@
+#!/usr/bin/env tmux -L=dmux -f
+
+########
+# TODO: Plugin to rearrange with stack/chain/span (M-:) potentially control mode.
+# TODO: Improve scrollback with bind for loading history in a familiar editor
+
+set -g default-terminal "screen-256color"
+set -ga terminal-overrides ",xterm*:Tc"
+set-environment -g COLORTERM "truecolor"
+set -g escape-time 0
+set -g status off
+set -g pane-border-lines double
+set -g aggressive-resize on
+set -g pane-border-style bg=default,fg=brightblack
+set -g pane-active-border-style bg=default,fg=brightblue
+set -g message-style bg=color238,fg=brightyellow
+set -g base-index 1
+set -g renumber-windows on
+set -g extended-keys on
+set -g focus-events on
+set -g mouse on
+unbind -na
+
+set-hook -g session-created {display "Alt+? for help"}
+bind -n M-? display-popup -w38 -h15 'echo "\
+Alt +\n\
+  ⎵     launch new <SPACE>\n\
+  ⇥     <TAB> swap panes\n\
+  ◅◊▻   <NAV> across panes (or ⦺⇕)\n\
+  ⦺⊹    <DRAG> borders to resize\n\
+  ⏎     <ENTER> or leave fullscreen\n\
+  ⌫     <BACKSPACE> close the pane\n\
+  ,.    desk jump (or ⇧+⦺⇕ or 1-9)\n\
+  <>    yank pane across desks\n\
+  ()    lift desk to new position\n\
+  ~     switch sessions\n\
+  esc   <ESCAPE> to disconnect"'
+
+# Scrollback
+bind -n WheelUpPane if-shell -F "#{||:#{pane_in_mode},#{mouse_any_flag}}" \
+	{ send-keys -M } { copy-mode -e }
+
+# Session management
+bind -n M-Escape detach-client
+bind -n M-~ switch-client -n
+
+# Desk(window) management
+set -g @desks "\
+#[fg=black,bg=black]\
+#{E:##{p#{#{e|-:#{e|/:#{client_width},2},6}:#}}}\
+#[fg=brightwhite,bg=red] \
+#{?#{<:#{session_windows},1},.,#{?#{==:#{window_index},1},▣ ,￭}}\
+#{?#{<:#{session_windows},2},.,#{?#{==:#{window_index},2},▣ ,￭}}\
+#{?#{<:#{session_windows},3},.,#{?#{==:#{window_index},3},▣ ,￭}}\
+#{?#{<:#{session_windows},4},.,#{?#{==:#{window_index},4},▣ ,￭}}\
+#{?#{<:#{session_windows},5},.,#{?#{==:#{window_index},5},▣ ,￭}}\
+#{?#{<:#{session_windows},6},.,#{?#{==:#{window_index},6},▣ ,￭}}\
+#{?#{<:#{session_windows},7},.,#{?#{==:#{window_index},7},▣ ,￭}}\
+#{?#{<:#{session_windows},8},.,#{?#{==:#{window_index},8},▣ ,￭}}\
+#{?#{<:#{session_windows},9},.,#{?#{==:#{window_index},9},▣ ,￭}}\
+ #[fg=black,bg=black]#\
+{E:##{p#{window_width}:#}}\
+"
+set-hook -g window-unlinked {display "#{E:@desks}"}
+
+# Lift desk to new position
+bind -n M-( {
+	if -F "#{window_start_flag}" {} {swap-window -d -t "{previous}"}
+	display "#{E:@desks}"
+}
+bind -n M-) {
+	if -F "#{window_end_flag}" {
+		if -F "#{e|<:#{session_windows},9}" {new-window -bd}
+	} {swap-window -d -t "{next}"; display "#{E:@desks}"}
+	 display "#{E:@desks}"
+}
+
+# Desk jump
+bind -n M-. {
+	if -F "#{window_end_flag}" {if -F "#{e|<:#{session_windows},9}" {new-window -a}} {next-window}
+	display "#{E:@desks}"
+}
+bind -n S-M-WheelUpPane {
+	if -F "#{window_end_flag}" {if -F "#{e|<:#{session_windows},9}" {new-window -a}} {next-window}
+	display "#{E:@desks}"
+}
+bind -n M-, {
+	if -F "#{window_start_flag}" {if -F "#{e|!=:#{window_index},1}" {new-window -b}} {previous-window}
+	display "#{E:@desks}"
+}
+bind -n S-M-WheelDownPane {
+	if -F "#{window_start_flag}" {if -F "#{e|!=:#{window_index},1}" {new-window -b}} {previous-window}
+	display "#{E:@desks}"
+}
+
+# Yank pane across desks
+bind -n M-> {
+	select-pane -m
+	if -F "#{window_end_flag}" {if -F "#{e|<:#{session_windows},9}" {new-window -a}} {next-window}
+	select-pane -t "{bottom-right}"
+	if -F "#{pane_at_left}" {
+		join-pane -h -l 60% -s "{marked}" -t "{bottom-right}"
+	} {
+		if -F "#{e|<:#{pane_height},5}" {
+			resize-pane -y 5
+		}
+		join-pane -l 75% -s "{marked}" -t "{bottom}"
+	}
+	display "#{E:@desks}"
+}
+bind -n M-< {
+	select-pane -m
+	if -F "#{window_start_flag}" {if -F "#{e|!=:#{window_index},1}" {new-window -b}} {previous-window}
+	select-pane -t "{bottom-right}"
+	if -F "#{pane_at_left}" {
+		join-pane -h -l 60% -s "{marked}" -t "{bottom-right}"
+	} {
+		if -F "#{e|<:#{pane_height},5}" {
+			resize-pane -y 5
+		}
+		join-pane -l 75% -s "{marked}" -t "{bottom}"
+	}
+	display "#{E:@desks}"
+}
+
+# Desktop direct jumping
+bind -n M-1 {
+	select-window -t 1
+	display "#{E:@desks}"
+}
+bind -n M-2 {
+	if -F "#{e|<:#{session_windows},2}" {select-window -t "{end}" ; new-window}
+	select-window -t 2
+	display "#{E:@desks}"
+}
+bind -n M-3 {
+	if -F "#{e|<:#{session_windows},3}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},3}" {select-window -t "{end}" ; new-window}
+	select-window -t 3
+	display "#{E:@desks}"
+}
+bind -n M-4 {
+	if -F "#{e|<:#{session_windows},4}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},4}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},4}" {select-window -t "{end}" ; new-window}
+	select-window -t 4
+	display "#{E:@desks}"
+}
+bind -n M-5 {
+	if -F "#{e|<:#{session_windows},5}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},5}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},5}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},5}" {select-window -t "{end}" ; new-window}
+	select-window -t 5
+	display "#{E:@desks}"
+}
+bind -n M-6 {
+	if -F "#{e|<:#{session_windows},6}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},6}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},6}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},6}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},6}" {select-window -t "{end}" ; new-window}
+	select-window -t 6
+	display "#{E:@desks}"
+}
+bind -n M-7 {
+	if -F "#{e|<:#{session_windows},7}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},7}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},7}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},7}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},7}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},7}" {select-window -t "{end}" ; new-window}
+	select-window -t 7
+	display "#{E:@desks}"
+}
+bind -n M-8 {
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},8}" {select-window -t "{end}" ; new-window}
+	select-window -t 8
+	display "#{E:@desks}"
+}
+bind -n M-9 {
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	if -F "#{e|<:#{session_windows},9}" {select-window -t "{end}" ; new-window}
+	select-window -t 9
+	display "#{E:@desks}"
+}
+
+
+# Navigation
+bind -n MouseDown1Pane select-pane -t = ";" send-keys -M
+bind -n -N"Nav left"  M-Left  if -F "#{pane_at_left}" {} {select-pane -L}
+bind -n -N"Nav right" M-Right if -F "#{pane_at_right}" {} {select-pane -R}
+bind -n -N"Nav up"    M-Up    if -F "#{pane_at_top}" {} {select-pane -U}
+bind -n -N"Nav down"  M-Down  if -F "#{pane_at_bottom}" {} {select-pane -D}
+bind -n -N"Tab swap"  M-Tab  select-pane -t "{last}"
+bind -n M-WheelUpPane select-pane -t "{previous}"
+bind -n M-WheelDownPane select-pane -t "{next}"
+
+# Launch new space
+bind -n -N"Launch space" M-Space {
+	select-pane -t "{bottom-right}"
+	if -F "#{pane_at_left}" {
+		split-window -h -l 60%
+	} {
+		if -F "#{e|<:#{pane_height},5}" {
+			resize-pane -y 5
+		}
+		split-window -l 75% -t"{bottom}"
+	}
+}
+
+# Layout
+bind -n MouseDrag1Border resize-pane -M
+bind -n M-\; resize-pane -Z
+bind -n M-\' resize-pane -Z
+bind -n M-Enter resize-pane -Z
+bind -n M-BSpace kill-pane
