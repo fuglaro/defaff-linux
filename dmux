@@ -1,4 +1,4 @@
-#!/usr/bin/env tmux -L=dmux -f
+#!/usr/bin/env -S tmux -L=dmux -f
 
 ########
 # TODO: Plugin to rearrange with stack/chain/span (M-:) potentially control mode.
