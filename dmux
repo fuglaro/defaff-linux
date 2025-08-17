@@ -23,17 +23,17 @@ unbind -na
 
 set-hook -g session-created {display "Alt+? for help"}
 bind -n M-? display-popup -w38 -h15 'echo "\
-Alt +\n\
-  ⎵     launch new <SPACE>\n\
-  ⇥     <TAB> swap panes\n\
-  ◅◊▻   <NAV> across panes (or ⦺⇕)\n\
-  ⦺⊹    <DRAG> borders to resize\n\
-  ⏎     <ENTER> or leave fullscreen\n\
-  ⌫     <BACKSPACE> close the pane\n\
-  ,.    desk jump (or ⇧+⦺⇕ or 1-9)\n\
-  <>    yank pane across desks\n\
-  ()    lift desk to new position\n\
-  ~     switch sessions\n\
+Alt +
+  ⎵     launch new <SPACE>
+  ⇥     <TAB> swap panes
+  ◅◊▻   <NAV> across panes (or ⦺⇕)
+  ⦺⊹    <DRAG> borders to resize
+  ⏎     <ENTER> or leave fullscreen
+  ⌫     <BACKSPACE> close the pane
+  ,.    desk jump (or ⇧+⦺⇕ or 1-9)
+  <>    yank pane across desks
+  ()    lift desk to new position
+  ~     switch sessions
   esc   <ESCAPE> to disconnect"'
 
 # Scrollback
