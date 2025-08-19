@@ -217,7 +217,7 @@ bind -n -N"Launch space" M-Space {
 		if -F "#{e|<:#{pane_height},5}" {
 			resize-pane -y 5
 		}
-		split-window -l 75% -t"{bottom}"
+		split-window -l 75% -t"{bottom-right}"
 	}
 }
 
