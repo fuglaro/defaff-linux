@@ -207,6 +207,13 @@ bind -n -N"Nav down"  M-Down  if -F "#{pane_at_bottom}" {} {select-pane -D}
 bind -n -N"Tab swap"  M-Tab  select-pane -t "{last}"
 bind -n M-WheelUpPane select-pane -t "{previous}"
 bind -n M-WheelDownPane select-pane -t "{next}"
+# Legacy control sequences
+bind -n -N"Nav left"  C-Left  if -F "#{pane_at_left}" {} {select-pane -L}
+bind -n -N"Nav right" C-Right if -F "#{pane_at_right}" {} {select-pane -R}
+bind -n -N"Nav up"    C-Up    if -F "#{pane_at_top}" {} {select-pane -U}
+bind -n -N"Nav down"  C-Down  if -F "#{pane_at_bottom}" {} {select-pane -D}
+bind -n -N"Tab swap"  C-Tab  select-pane -t "{last}"
+
 
 # Launch new space
 bind -n -N"Launch space" M-Space {
