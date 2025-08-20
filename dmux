@@ -41,14 +41,19 @@ bind -n WheelUpPane if-shell -F "#{||:#{pane_in_mode},#{mouse_any_flag}}" \
 	{ send-keys -M } { copy-mode -e }
 
 # Session management
+set -g @sessions "\
+#[fg=brightwhite,bg=red]\
+ #{session_name} \
+#[fg=black,bg=black]\
+#{E:##{p#{#{e|-:#{window_width},#{w:session_name}}:#}}}\
+"
+bind -n M-~ {switch-client -n ; display "#{E:@sessions}"}
 bind -n M-Escape detach-client
-bind -n M-~ switch-client -n
 
 # Desk(window) management
 set -g @desks "\
-#[fg=black,bg=black]\
-#{E:##{p#{#{e|-:#{e|/:#{client_width},2},6}:#}}}\
-#[fg=brightwhite,bg=red] \
+#[fg=brightwhite,bg=red]\
+ \
 #{?#{<:#{session_windows},1},.,#{?#{==:#{window_index},1},▣ ,￭}}\
 #{?#{<:#{session_windows},2},.,#{?#{==:#{window_index},2},▣ ,￭}}\
 #{?#{<:#{session_windows},3},.,#{?#{==:#{window_index},3},▣ ,￭}}\
@@ -58,8 +63,9 @@ set -g @desks "\
 #{?#{<:#{session_windows},7},.,#{?#{==:#{window_index},7},▣ ,￭}}\
 #{?#{<:#{session_windows},8},.,#{?#{==:#{window_index},8},▣ ,￭}}\
 #{?#{<:#{session_windows},9},.,#{?#{==:#{window_index},9},▣ ,￭}}\
- #[fg=black,bg=black]#\
-{E:##{p#{window_width}:#}}\
+ \
+#[fg=black,bg=black]\
+#{E:##{p#{#{e|-:#{client_width},11}:#}}}\
 "
 set-hook -g window-unlinked {display "#{E:@desks}"}
 
