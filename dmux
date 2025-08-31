@@ -54,15 +54,15 @@ bind -n M-Escape detach-client
 set -g @desks "\
 #[fg=brightwhite,bg=red]\
  \
-#{?#{<:#{session_windows},1},.,#{?#{==:#{window_index},1},▣ ,￭}}\
-#{?#{<:#{session_windows},2},.,#{?#{==:#{window_index},2},▣ ,￭}}\
-#{?#{<:#{session_windows},3},.,#{?#{==:#{window_index},3},▣ ,￭}}\
-#{?#{<:#{session_windows},4},.,#{?#{==:#{window_index},4},▣ ,￭}}\
-#{?#{<:#{session_windows},5},.,#{?#{==:#{window_index},5},▣ ,￭}}\
-#{?#{<:#{session_windows},6},.,#{?#{==:#{window_index},6},▣ ,￭}}\
-#{?#{<:#{session_windows},7},.,#{?#{==:#{window_index},7},▣ ,￭}}\
-#{?#{<:#{session_windows},8},.,#{?#{==:#{window_index},8},▣ ,￭}}\
-#{?#{<:#{session_windows},9},.,#{?#{==:#{window_index},9},▣ ,￭}}\
+#{?#{<:#{session_windows},1},_,#{?#{==:#{window_index},1},▀,￭}}\
+#{?#{<:#{session_windows},2},_,#{?#{==:#{window_index},2},▀,￭}}\
+#{?#{<:#{session_windows},3},_,#{?#{==:#{window_index},3},▀,￭}}\
+#{?#{<:#{session_windows},4},_,#{?#{==:#{window_index},4},▀,￭}}\
+#{?#{<:#{session_windows},5},_,#{?#{==:#{window_index},5},▀,￭}}\
+#{?#{<:#{session_windows},6},_,#{?#{==:#{window_index},6},▀,￭}}\
+#{?#{<:#{session_windows},7},_,#{?#{==:#{window_index},7},▀,￭}}\
+#{?#{<:#{session_windows},8},_,#{?#{==:#{window_index},8},▀,￭}}\
+#{?#{<:#{session_windows},9},_,#{?#{==:#{window_index},9},▀,￭}}\
  \
 #[fg=black,bg=black]\
 #{E:##{p#{#{e|-:#{client_width},11}:#}}}\
