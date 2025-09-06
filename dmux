@@ -223,14 +223,21 @@ bind -n -N"Tab swap"  C-Tab  select-pane -t "{last}"
 
 # Launch new space
 bind -n -N"Launch space" M-Space {
-	select-pane -t "{bottom-right}"
 	if -F "#{pane_at_left}" {
-		split-window -h -l 60%
-	} {
-		if -F "#{e|<:#{pane_height},5}" {
-			resize-pane -y 5
+		select-pane -t "{bottom-right}"
+		if -F "#{pane_at_left}" {
+			split-window -h -l 60%
+		} {
+			if -F "#{e|<:#{pane_height},5}" {
+				resize-pane -y 5
+			}
+			split-window -l 75% -t"{bottom-right}"
 		}
-		split-window -l 75% -t"{bottom-right}"
+	} {
+			if -F "#{e|<:#{pane_height},5}" {
+				resize-pane -y 5
+			}
+			split-window -l 75%
 	}
 }
 
