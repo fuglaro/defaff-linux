@@ -3,23 +3,23 @@
 **Hold the ⊞ key (WIN/CMD) for shortcuts**:
 | `⊞ +` |  |
 | ----: | :--- |
-|   `⎵` | **⏵** launch space for HUD and apps |
+|   `⎵` | **▶** launch space for HUD and apps |
 |   `⇥` | **⧉** tab swap windows |
-| `◅◊▻` | **⎘** nav across windows (or ⦺⇕) |
+| `◅◊▻` | **⎘** nav across windows (or `⦺⇕`) |
 |  `⦺⊹` | **⤡** drag/resize/tab on left/right/top |
 |   `;` | **◫** tile or float the window |
 |   `:` | **⌸** stack, chain or span tiled window |
 |   `'` | **⚲** pin window above everything |
 |   `⏎` | **⛶** enter or leave fullscreen |
 |   `⌫` | **☒** backspace close the window |
-|  `,.` | **￭▣** desk jump (or ⇧+⦺⇕ or 1-9) |
+|  `,.` | **￭▣** desk jump (or `⇧+⦺⇕` `1-9` `[]`) |
 |  `<>` | **▯⇋** yank window across desks |
-|  `()` | **￭⇋** lift desk to new position |
+|  `{}` | **￭⇋** lift desk to new position |
 |   `~` | **⤹⩈** switch sessions |
-|  `[]` | **✄** copy and paste |
+| `cvx` | **✄** copy and paste |
 | `esc` | **⏻** escape to lock the screen or exit |
 
-Hint: `⊞ +` `⎵`**⏵** `⇥◅◊▻⦺⇕`**⎘** `;:`**◫** `'`**⚲** `,.<>()⇧⦺⇕`**￭￭** `⏎`**⛶** `⌫`**⛝** `~`**⤹⩈** `esc`**⏻**
+Hint: `⊞ +` `⎵`**▶** `☩⇥⦺⇕`**⎘** `;:`**◫** `'`**⚲** `<>()⇧⦺⇕`**￭▣** `⏎`**⛶** `⌫`**⛝** `~`**⤹⩈** `esc`**⏻**
 
 **Details:**
 * When the HUD is open, all shortcuts are active as if the ⊞ key is held.
