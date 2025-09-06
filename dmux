@@ -70,11 +70,11 @@ set -g @desks "\
 set-hook -g window-unlinked {display "#{E:@desks}"}
 
 # Lift desk to new position
-bind -n M-( {
+bind -n M-\{ {
 	if -F "#{window_start_flag}" {} {swap-window -d -t "{previous}"}
 	display "#{E:@desks}"
 }
-bind -n M-) {
+bind -n M-\} {
 	if -F "#{window_end_flag}" {
 		if -F "#{e|<:#{session_windows},9}" {new-window -bd}
 	} {swap-window -d -t "{next}"; display "#{E:@desks}"}
@@ -82,6 +82,10 @@ bind -n M-) {
 }
 
 # Desk jump
+bind -n M-, {
+	if -F "#{window_start_flag}" {if -F "#{e|!=:#{window_index},1}" {new-window -b}} {previous-window}
+	display "#{E:@desks}"
+}
 bind -n M-. {
 	if -F "#{window_end_flag}" {if -F "#{e|<:#{session_windows},9}" {new-window -a}} {next-window}
 	display "#{E:@desks}"
@@ -90,12 +94,17 @@ bind -n S-M-WheelUpPane {
 	if -F "#{window_end_flag}" {if -F "#{e|<:#{session_windows},9}" {new-window -a}} {next-window}
 	display "#{E:@desks}"
 }
-bind -n M-, {
+bind -n S-M-WheelDownPane {
 	if -F "#{window_start_flag}" {if -F "#{e|!=:#{window_index},1}" {new-window -b}} {previous-window}
 	display "#{E:@desks}"
 }
-bind -n S-M-WheelDownPane {
+# Alternative desk jump for unshifted Lift desk keys
+bind -n M-[ {
 	if -F "#{window_start_flag}" {if -F "#{e|!=:#{window_index},1}" {new-window -b}} {previous-window}
+	display "#{E:@desks}"
+}
+bind -n M-] {
+	if -F "#{window_end_flag}" {if -F "#{e|<:#{session_windows},9}" {new-window -a}} {next-window}
 	display "#{E:@desks}"
 }
 
