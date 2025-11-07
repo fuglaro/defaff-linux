@@ -9,3 +9,4 @@ Linux distribution as defaffware - powerful sans the faff
 
 # TODO
 * Investigate Cosmic Desktop to see how much aligns.
+* Ivestigate https://github.com/starship/starship
