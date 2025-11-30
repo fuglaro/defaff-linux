@@ -1,4 +1,18 @@
-#!/usr/bin/env -S tmux -L=dmux -f
+#!/usr/bin/env -S bash -c 'eval "$(sed -n /^#--/s/#--//p $0)"'
+#-- for arg in "$@"; do
+#--   if [ "$arg" == "-h" ]; then
+#--     >&2 echo usage: dmux +[session-name]
+#--   fi
+#-- done
+#-- if [ "$1" == + ]; then
+#--   tmux -L=dmux list-sessions 2>/dev/null \
+#--     || exec tmux -L=dmux -f $0
+#--   exit
+#-- elif [ "${1:0:1}" == + ]; then
+#--   exec tmux -L=dmux -f $0 new-session -A -t "${1:1}"
+#-- fi
+#-- exec tmux -L=dmux -f $0 "$@"
+
 
 ########
 # TODO: Plugin to rearrange with stack/chain/span (M-:) potentially control mode.
