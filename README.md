@@ -12,5 +12,5 @@ Linux distribution as defaffware - powerful sans the faff
 * Ivestigate https://github.com/starship/starship
 
 # Interesting Things
-* deltadiff
+* deltadiff (IT has highlighting config into git)
 * textualize
