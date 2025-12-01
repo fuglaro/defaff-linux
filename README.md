@@ -14,3 +14,4 @@ Linux distribution as defaffware - powerful sans the faff
 # Interesting Things
 * deltadiff (IT has highlighting config into git)
 * textualize
+* powerline
