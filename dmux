@@ -1,17 +1,19 @@
-#!/usr/bin/env -S bash -c 'eval "$(sed -n /^#--/s/#--//p $0)"'
-#-- for arg in "$@"; do
-#--   if [ "$arg" == "-h" ]; then
-#--     >&2 echo usage: dmux +[session-name]
-#--   fi
-#-- done
-#-- if [ "$1" == + ]; then
-#--   tmux -L=dmux list-sessions 2>/dev/null \
-#--     || exec tmux -L=dmux -f $0
-#--   exit
-#-- elif [ "${1:0:1}" == + ]; then
-#--   exec tmux -L=dmux -f $0 new-session -A -t "${1:1}"
-#-- fi
-#-- exec tmux -L=dmux -f $0 "$@"
+#!/usr/bin/env -S bash\_-c\_"eval\_\"\$(sed\_-n\_/^\$(printf\_\\\\x23)!-/s/\$(printf\_\\\\x23)!-//p\_\$0)\""
+#!- for arg in "$@"; do
+#!-   if [ "$arg" == "-h" ]; then
+#!-     >&2 echo usage: dmux +[+\|session-name]
+#!-   fi
+#!- done
+#!- if [ "$1" == + ]; then
+#!-   tmux -L=dmux list-sessions 2>/dev/null || >&2 echo no sessions
+#!-   exit
+#!- elif [ "${1:0:1}" == + ]; then
+#!-   if [ "${1:0}" == ++ ]; then
+#!-     exec tmux -L=dmux -f $0 attach
+#!-   fi
+#!-   exec tmux -L=dmux -f $0 new-session -A -t "${1:1}"
+#!- fi
+#!- exec tmux -L=dmux -f $0 "$@"
 
 
 ########
@@ -67,6 +69,7 @@ bind -n M-Escape detach-client
 # Desk(window) management
 set -g @desks "\
 #[fg=brightwhite,bg=red]\
+#{window_index}\
  \
 #{?#{<:#{session_windows},1},_,#{?#{==:#{window_index},1},▀,￭}}\
 #{?#{<:#{session_windows},2},_,#{?#{==:#{window_index},2},▀,￭}}\
@@ -81,7 +84,9 @@ set -g @desks "\
 #[fg=black,bg=black]\
 #{E:##{p#{#{e|-:#{client_width},11}:#}}}\
 "
-set-hook -g window-unlinked {display "#{E:@desks}"}
+set-hook -g window-unlinked {
+	if -F "#{e|>:#{session_attached},0}" {display "#{E:@desks}"}
+}
 
 # Lift desk to new position
 bind -n M-\{ {
