@@ -254,18 +254,18 @@ bind -n -N"Launch space" M-Space {
 	if -F "#{pane_at_left}" {
 		select-pane -t "{bottom-right}"
 		if -F "#{pane_at_left}" {
-			split-window -h -l 60%
+			split-window -h -l 60% -c "#{pane_current_path}"
 		} {
 			if -F "#{e|<:#{pane_height},5}" {
 				resize-pane -y 5
 			}
-			split-window -l 75% -t"{bottom-right}"
+			split-window -l 75% -t"{bottom-right}" -c "#{pane_current_path}"
 		}
 	} {
 			if -F "#{e|<:#{pane_height},5}" {
 				resize-pane -y 5
 			}
-			split-window -l 75%
+			split-window -l 75% -c "#{pane_current_path}"
 	}
 }
 
