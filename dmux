@@ -46,6 +46,7 @@ Alt +
   ⦺⊹    <DRAG> borders to resize
   ⏎     <ENTER> or leave fullscreen
   ⌫     <BACKSPACE> close the pane
+  :     span a new space at top
   ,.    desk jump (or ⇧+⦺⇕ or 1-9)
   <>    yank pane across desks
   ()    lift desk to new position
@@ -267,6 +268,10 @@ bind -n -N"Launch space" M-Space {
 			}
 			split-window -l 75% -c "#{pane_current_path}"
 	}
+}
+bind -n -N"Launch space" M-: {
+	select-pane -t "{bottom-left}"
+	split-window -b -l 1 -f -c "#{pane_current_path}"
 }
 
 # Layout
