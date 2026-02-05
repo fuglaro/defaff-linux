@@ -1,4 +1,4 @@
-#!/usr/bin/env -S bash\_-c\_"eval\_\"\$(sed\_-n\_/^\$(printf\_\\\\x23)!-/s/\$(printf\_\\\\x23)!-//p\_\$0)\""
+#!/usr/bin/env -S bash\_--login\_-c\_"eval\_\"\$(sed\_-n\_/^\$(printf\_\\\\x23)!-/s/\$(printf\_\\\\x23)!-//p\_\$0)\""
 #!- for arg in "$@"; do
 #!-   if [ "$arg" == "-h" ]; then
 #!-     >&2 echo usage: dmux +[+\|session-name]
