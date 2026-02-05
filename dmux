@@ -38,21 +38,23 @@ set -g focus-events on
 set -g mouse on
 unbind -na
 
-set-hook -g session-created {display "Alt+? for help"}
-bind -n M-? display-popup -w38 -h15 'echo "\
-Alt +
-  ⎵     launch new <SPACE>
-  ⇥     <TAB> swap panes
-  ◅◊▻   <NAV> across panes (or ⦺⇕)
-  ⦺⊹    <DRAG> borders to resize
-  ⏎     <ENTER> or leave fullscreen
-  ⌫     <BACKSPACE> close the pane
-  :     span a new space at top
-  ,.    desk jump (or ⇧+⦺⇕ or 1-9)
-  <>    yank pane across desks
-  ()    lift desk to new position
-  ~     switch sessions
-  esc   <ESCAPE> to disconnect"'
+set-hook -g session-created {display-popup -w20 -h5 -E 'printf "\n  Alt+? for help\n"; sleep 1 & read -n 1 -s -p "" & wait -n'}
+bind -n M-? display-popup -w41 -h17 -k '
+echo "";
+echo "  Alt +";
+echo "    ⎵     launch new <SPACE>";
+echo "    ⇥     <TAB> swap panes";
+echo "    ◅◊▻   <NAV> across panes (or ⦺⇕)";
+echo "    ⦺⊹    <DRAG> borders to resize";
+echo "    ⏎     <ENTER> or leave fullscreen";
+echo "    ⌫     <BACKSPACE> close the pane";
+echo "    :     span a new space at top";
+echo "    ,.    desk jump (or ⇧+⦺⇕ or 1-9)";
+echo "    <>    yank pane across desks";
+echo "    ()    lift desk to new position";
+echo "    ~     switch sessions";
+echo "    esc   <ESCAPE> to disconnect";
+'
 
 # Scrollback
 bind -n WheelUpPane if-shell -F "#{||:#{pane_in_mode},#{mouse_any_flag}}" \
